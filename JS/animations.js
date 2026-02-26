@@ -2,7 +2,7 @@ function createParticles() {
     const container = document.getElementById('particlesContainer');
     if (!container) return;
 
-    const particleCount = 8; // menos partículas = mais leve
+    const particleCount = 0; // menos partículas = mais leve
     const particleTypes = ['small', 'medium', 'large'];
 
     for (let i = 0; i < particleCount; i++) {
