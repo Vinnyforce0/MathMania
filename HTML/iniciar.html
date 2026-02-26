@@ -3,14 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Execucao</title>
+    <title>Execução</title>
     <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../CSS/styles.css">
 </head>
-<body>
-    <div class="container">
-        <h1>Iniciar</h1>
-        <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">Voltar</button>
+<body class="game-page">
+
+    <!-- TIMER - canto superior esquerdo -->
+    <div id="timer">⏱ 70</div>
+
+    <div id="scoreDisplay">⭐ 0</div>
+
+    <!-- CONTADOR DE PERGUNTAS - canto superior direito -->
+    <div id="questionCount">📊 0</div>
+
+    <!-- ÁREA CENTRAL -->
+    <div class="center-area">
+        <div id="question">Carregando...</div>
     </div>
+
+    <!-- ÁREA DE RESPOSTA -->
+    <div id="answer-area">
+        <input 
+            type="number"
+            id="answerInput"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="Resposta"
+        >
+    </div>
+    <script src="../SRC/play.js" defer></script>
+
 </body>
 </html>

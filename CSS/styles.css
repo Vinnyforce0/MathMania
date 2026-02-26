@@ -1,3 +1,7 @@
+/* ======================================================
+   1️⃣ RESET GLOBAL
+====================================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +11,14 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+/* ======================================================
+   2️⃣ HOME / PÁGINAS NORMAIS
+====================================================== */
+
+body:not(.game-page) {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
@@ -21,8 +33,8 @@ body {
         #0a0a1a;
 }
 
-/* Scanlines leves */
-body::after {
+/* Scanlines apenas fora do jogo */
+body:not(.game-page)::after {
     content: '';
     position: fixed;
     inset: 0;
@@ -39,19 +51,12 @@ body::after {
     z-index: 1;
 }
 
-@keyframes scanlines {
-    from { transform: translateY(0); }
-    to { transform: translateY(6px); }
-}
-
-/* Container principal */
 .container {
     text-align: center;
     z-index: 5;
     position: relative;
 }
 
-/* Título otimizado */
 h1 {
     font-size: 3rem;
     color: white;
@@ -63,7 +68,6 @@ h1 {
     letter-spacing: 2px;
 }
 
-/* Grupo de botões */
 .buttons-group {
     display: flex;
     gap: 20px;
@@ -71,7 +75,6 @@ h1 {
     flex-wrap: wrap;
 }
 
-/* Botões leves */
 button {
     padding: 16px 40px;
     font-size: 1.1rem;
@@ -84,109 +87,154 @@ button {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-button:active {
-    transform: scale(0.95);
-}
+button:active { transform: scale(0.95); }
+button:hover { transform: scale(1.08); }
 
-button:hover {
-    transform: scale(1.08);
-}
-
-/* Cores individuais */
 #startButton { color: rgba(255, 20, 147, 0.9); }
 #indexButton { color: rgba(154, 50, 211, 0.9); }
 #optionsButton { color: rgba(0, 255, 200, 0.9); }
 #exitButton { color: rgba(0, 150, 255, 0.9); }
 
-/* Partículas */
-.particles {
+
+/* ======================================================
+   GAME PAGE LAYOUT NOVO
+====================================================== */
+
+.game-page {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background:
+        radial-gradient(circle at 30% 40%, rgba(154, 50, 211, 0.12), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(0, 255, 200, 0.12), transparent 60%),
+        #0a0a1a;
+}
+
+/* Scanlines */
+.game-page::after {
+    content: '';
     position: fixed;
     inset: 0;
-    overflow: hidden;
-    z-index: 0;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(255, 255, 255, 0.02) 3px,
+            rgba(255, 255, 255, 0.02) 4px
+        );
+    animation: scanlines 0.4s linear infinite;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.particle {
+/* =========================
+   HUD FIXO NOS CANTOS
+========================= */
+
+.game-page #timer {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: rgba(255, 20, 147, 0.9);
+    text-shadow: 0 0 10px rgba(255, 20, 147, 0.6);
+    z-index: 10;
+}
+
+.game-page #questionCount {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: rgba(0, 255, 200, 0.9);
+    text-shadow: 0 0 10px rgba(0, 255, 200, 0.6);
+    z-index: 10;
+}
+
+/* SCORE - centro topo */
+.game-page #scoreDisplay {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #ffd700;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.8),
+        0 0 20px rgba(255, 200, 0, 0.6);
+    z-index: 10;
+}
+
+/* =========================
+   CENTRO DA TELA
+========================= */
+
+.game-page .center-area {
     position: absolute;
-    border-radius: 50%;
-    animation: drift 18s linear infinite;
-    will-change: transform, opacity;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    text-align: center;
+    width: 90%;
 }
 
-.particle.small {
-    width: 2px;
-    height: 2px;
-    background: rgba(154, 50, 211, 0.6);
+/* Pergunta gigante */
+.game-page #question {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: white;
+    text-shadow:
+        0 0 20px rgba(154, 50, 211, 0.7),
+        0 0 40px rgba(0, 255, 200, 0.5);
+    margin-bottom: 40px;
 }
 
-.particle.medium {
-    width: 4px;
-    height: 4px;
-    background: rgba(0, 255, 200, 0.5);
+/* =========================
+   ÁREA DE RESPOSTA
+========================= */
+
+.game-page #answer-area {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-.particle.large {
-    width: 6px;
-    height: 6px;
-    background: rgba(255, 20, 147, 0.5);
+.game-page #answerInput {
+    width: 260px;
+    padding: 16px;
+    font-size: 1.6rem;
+    text-align: center;
+    border-radius: 40px;
+    border: 2px solid rgba(0, 255, 200, 0.7);
+    background: rgba(20, 20, 40, 0.95);
+    color: white;
+    outline: none;
+    transition: 0.2s ease;
 }
 
-.line-particle {
-    position: absolute;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(0, 150, 255, 0.6),
-        transparent
-    );
-    animation: driftLine 15s linear infinite;
-    will-change: transform, opacity;
+.game-page #answerInput:focus {
+    box-shadow: 0 0 25px rgba(0, 255, 200, 0.6);
+    transform: scale(1.05);
 }
 
-/* Animações leves */
-@keyframes drift {
-    0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0;
-    }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% {
-        transform: translate(var(--tx), var(--ty)) scale(0);
-        opacity: 0;
-    }
+
+/* ======================================================
+   4️⃣ ANIMAÇÕES GERAIS
+====================================================== */
+
+@keyframes scanlines {
+    from { transform: translateY(0); }
+    to { transform: translateY(6px); }
 }
 
-@keyframes driftLine {
-    0% {
-        transform: translate(0, 0);
-        opacity: 0;
-    }
-    10% { opacity: 0.8; }
-    90% { opacity: 0.8; }
-    100% {
-        transform: translate(var(--tx), var(--ty));
-        opacity: 0;
-    }
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.3rem;
-    }
-
-    button {
-        padding: 14px 32px;
-        font-size: 1rem;
-    }
-
-    .buttons-group {
-        gap: 15px;
-    }
-}
-
-/* Economia de bateria */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;
