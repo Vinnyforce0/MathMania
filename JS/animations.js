@@ -3,7 +3,7 @@ function createParticles() {
     const container = document.getElementById('particlesContainer');
     if (!container) return;
     
-    const particleCount = 40;
+    const particleCount = 10;
 
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
