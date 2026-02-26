@@ -1,16 +1,16 @@
 const CACHE_NAME = 'MathMania';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/CSS/styles.css',
-  '/HTML/indice.html',
-  '/HTML/iniciar.html',
-  '/HTML/opcoes.html',
-  '/SRC/play.js',
-  '/IMAGES/floor.jpg',
-  '/IMAGES/laser.png',
-  '/IMAGES/sky.jpg'
+  '/MATHMANIA/',
+  '/MATHMANIA/index.html',
+  '/MATHMANIA/manifest.json',
+  '/MATHMANIA/CSS/styles.css',
+  '/MATHMANIA/HTML/indice.html',
+  '/MATHMANIA/HTML/iniciar.html',
+  '/MATHMANIA/HTML/opcoes.html',
+  '/MATHMANIA/SRC/play.js',
+  '/MATHMANIA/IMAGES/floor.jpg',
+  '/MATHMANIA/IMAGES/laser.png',
+  '/MATHMANIA/IMAGES/sky.jpg'
 ];
 
 self.addEventListener('install', event => {
