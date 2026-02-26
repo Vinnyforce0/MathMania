@@ -158,8 +158,9 @@
             overflow: hidden;
             text-transform: uppercase;
             letter-spacing: 1px;
-            background: rgba(20, 20, 40, 0.8);
+            background: rgba(10, 10, 26, 0.95);
             backdrop-filter: blur(10px);
+            z-index: 11;
         }
 
         button::before {
@@ -192,6 +193,17 @@
             border-color: rgba(255, 20, 147, 1);
         }
 
+        #indexButton {
+            border-color: rgba(154, 50, 211, 0.8);
+            box-shadow: 0 0 20px rgba(154, 50, 211, 0.5), inset 0 0 20px rgba(154, 50, 211, 0.2);
+        }
+
+        #indexButton:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 0 40px rgba(154, 50, 211, 0.8), 0 0 60px rgba(154, 50, 211, 0.6), inset 0 0 30px rgba(154, 50, 211, 0.3);
+            border-color: rgba(154, 50, 211, 1);
+        }
+
         #optionsButton {
             border-color: rgba(0, 255, 200, 0.8);
             box-shadow: 0 0 20px rgba(0, 255, 200, 0.5), inset 0 0 20px rgba(0, 255, 200, 0.2);
@@ -201,6 +213,17 @@
             transform: scale(1.15) translateY(-5px);
             box-shadow: 0 0 40px rgba(0, 255, 200, 0.8), 0 0 60px rgba(0, 255, 200, 0.6), inset 0 0 30px rgba(0, 255, 200, 0.3);
             border-color: rgba(0, 255, 200, 1);
+        }
+
+        #exitButton {
+            border-color: rgba(0, 150, 255, 0.8);
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.5), inset 0 0 20px rgba(0, 150, 255, 0.2);
+        }
+
+        #exitButton:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 0 40px rgba(0, 150, 255, 0.8), 0 0 60px rgba(0, 150, 255, 0.6), inset 0 0 30px rgba(0, 150, 255, 0.3);
+            border-color: rgba(0, 150, 255, 1);
         }
 
         /* Efeito de partículas de fundo */
@@ -300,10 +323,12 @@
     <div class="particles" id="particlesContainer"></div>
 
     <div class="container">
-        <h1>🎯 Math Mania</h1>
+        <h1>Math Mania</h1>
         <div class="buttons-group">
-            <button id="startButton">Começar</button>
+            <button id="startButton">Iniciar</button>
+            <button id="indexButton">Índice</button>
             <button id="optionsButton">Opções</button>
+            <button id="exitButton">Sair</button>
         </div>
     </div>
 
@@ -390,11 +415,19 @@
 
         // Event listeners dos botões
         document.getElementById('startButton').addEventListener('click', () => {
-            alert('Tela inicial - mais funcionalidades em breve!');
+            alert('Iniciar - mais funcionalidades em breve!');
+        });
+
+        document.getElementById('indexButton').addEventListener('click', () => {
+            alert('Índice - mais funcionalidades em breve!');
         });
 
         document.getElementById('optionsButton').addEventListener('click', () => {
             alert('Opções - mais funcionalidades em breve!');
+        });
+
+        document.getElementById('exitButton').addEventListener('click', () => {
+            alert('Sair - mais funcionalidades em breve!');
         });
 
         // Inicia a criação de partículas
