@@ -116,7 +116,7 @@ function handleWrong() {
 // ===============================
 
 function addScore() {
-    const value = Math.log(Math.max(timeLeft,1)) * ((difficulty/5)+1);
+    const value = Math.log(Math.max(timeLeft, 1)) * ((difficulty / 5) + 1);
     score += Math.floor(value);
 }
 
@@ -233,4 +233,12 @@ function endGame() {
     clearInterval(timerInterval);
     inputEl.disabled = true;
     questionEl.textContent = "Fim de jogo!";
+}
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('../sw.js')
+            .then(reg => console.log('Service Worker registrado!', reg))
+            .catch(err => console.log('Falha no registro do SW', err));
+    });
 }

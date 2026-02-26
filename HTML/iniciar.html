@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -7,6 +8,7 @@
     <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../CSS/styles.css">
 </head>
+
 <body class="game-page">
 
     <!-- TIMER - canto superior esquerdo -->
@@ -24,15 +26,18 @@
 
     <!-- ÁREA DE RESPOSTA -->
     <div id="answer-area">
-        <input 
-            type="number"
-            id="answerInput"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="Resposta"
-        >
+        <input type="number" id="answerInput" inputmode="numeric" autocomplete="off" placeholder="Resposta">
     </div>
     <script src="../SRC/play.js" defer></script>
-
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js')
+                    .then(reg => console.log('Service Worker registrado!', reg))
+                    .catch(err => console.log('Falha no registro do SW', err));
+            });
+        }
+    </script>
 </body>
+
 </html>

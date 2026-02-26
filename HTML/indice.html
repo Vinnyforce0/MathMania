@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -7,10 +8,21 @@
     <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../CSS/styles.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Índice</h1>
         <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">Voltar</button>
     </div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js')
+                    .then(reg => console.log('Service Worker registrado!', reg))
+                    .catch(err => console.log('Falha no registro do SW', err));
+            });
+        }
+    </script>
 </body>
+
 </html>

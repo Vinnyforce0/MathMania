@@ -1,10 +1,11 @@
 {
-  "name": "Math Mania",
-  "short_name": "MathMania",
-  "start_url": ".",
+  "name": "MathMania",
+  "short_name": "MM",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#007acc",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "nenhuma descrição",
   "icons": [
     {
       "src": "floor.jpg",

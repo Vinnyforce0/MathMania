@@ -1,4 +1,4 @@
-const CACHE_NAME = 'math-mania-cache-v3';
+const CACHE_NAME = 'Math-Mania';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -7,7 +7,10 @@ const ASSETS_TO_CACHE = [
   '/HTML/indice.html',
   '/HTML/iniciar.html',
   '/HTML/opcoes.html',
-  '/SRC/play.js'
+  '/SRC/play.js',
+  'IMAGES/floor.jpg',
+  'IMAGES/laser.png',
+  'IMAGES/sky.jpg',
 ];
 
 self.addEventListener('install', event => {
