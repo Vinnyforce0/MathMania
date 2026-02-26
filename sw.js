@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Math-Mania';
+const CACHE_NAME = 'MathMania';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
