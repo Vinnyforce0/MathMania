@@ -1,22 +1,22 @@
-const CACHE_NAME = 'MathMania';
+const CACHE_NAME = 'MathMania.3';
 const ASSETS_TO_CACHE = [
-  '/MATHMANIA/',
-  '/MATHMANIA/index.html',
-  '/MATHMANIA/manifest.json',
-  '/MATHMANIA/CSS/styles.css',
-  '/MATHMANIA/HTML/indice.html',
-  '/MATHMANIA/HTML/iniciar.html',
-  '/MATHMANIA/HTML/opcoes.html',
-  '/MATHMANIA/SRC/play.js',
-  '/MATHMANIA/IMAGES/floor.jpg',
-  '/MATHMANIA/IMAGES/laser.png',
-  '/MATHMANIA/IMAGES/sky.jpg'
+  './MathMania/',
+  './MathMania/index.html',
+  './MathMania/manifest.json',
+  './MathMania/CSS/styles.css',
+  './MathMania/HTML/indice.html',
+  './MathMania/HTML/iniciar.html',
+  './MathMania/HTML/opcoes.html',
+  './MathMania/SRC/play.js',
+  './MathMania/IMAGES/floor.jpg',
+  './MathMania/IMAGES/laser.png',
+  './MathMania/IMAGES/sky.jpg'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS_TO_CACHE))
+      .then(cache => cache.addAll(ASSETS_TO_CACHE).catch(err => console.warn('Falha ao cachear:', err)))
   );
 });
 
