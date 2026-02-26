@@ -1,24 +1,24 @@
 {
   "name": "MathMania",
   "short_name": "MM",
-  "start_url": "./index.html",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
   "description": "nenhuma descrição",
   "icons": [
     {
-      "src": "floor.jpg",
+      "src": "IMAGES/floor.jpg",
       "sizes": "192x192",
       "type": "image/jpeg"
     },
     {
-      "src": "laser.png",
+      "src": "IMAGES/laser.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "sky.jpg",
+      "src": "IMAGES/sky.jpg",
       "sizes": "512x512",
       "type": "image/jpeg"
     }

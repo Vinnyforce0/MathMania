@@ -8,9 +8,9 @@ const ASSETS_TO_CACHE = [
   '/HTML/iniciar.html',
   '/HTML/opcoes.html',
   '/SRC/play.js',
-  'IMAGES/floor.jpg',
-  'IMAGES/laser.png',
-  'IMAGES/sky.jpg',
+  '/IMAGES/floor.jpg',
+  '/IMAGES/laser.png',
+  '/IMAGES/sky.jpg'
 ];
 
 self.addEventListener('install', event => {

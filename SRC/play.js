@@ -3,9 +3,9 @@
 // ===============================
 
 let timeLeft = 70;
+let difficulty = 1;
 let score = 0;
 let questionCount = 0;
-let difficulty = 2; // dificuldade inicial
 let currentAnswer = 0;
 let freeze = false;
 let timerInterval = null;
@@ -16,21 +16,53 @@ let timerInterval = null;
 
 const timerEl = document.getElementById("timer");
 const scoreEl = document.getElementById("scoreDisplay");
+const difficultyEl = document.getElementById("difficulty");
 const questionCountEl = document.getElementById("questionCount");
 const questionEl = document.getElementById("question");
 const inputEl = document.getElementById("answerInput");
 
 // ===============================
-// PESOS DOS OPERADORES
+// COMBINAÇÕES DE OPERADORES POR DIFICULDADE
 // ===============================
 
-const operadores = [
-    { simbolo: "+", peso: 2 },
-    { simbolo: "-", peso: 3 },
-    { simbolo: "*", peso: 8 },
-    { simbolo: "/", peso: 10 },
-    { simbolo: "**", peso: 20 },
-    { simbolo: "√", peso: 30 }
+// Estrutura: { minDifficulty, combinations: [ { ops: ["+", "-"], weight: 25 }, ... ] }
+const OPERATOR_COMBINATIONS = [
+    {
+        minDifficulty: 1,
+        combinations: [
+            { ops: ["+"], weight: 100 }
+        ]
+    },
+    {
+        minDifficulty: 5,
+        combinations: [
+            { ops: ["+"], weight: 25 },
+            { ops: ["-"], weight: 25 },
+            { ops: ["+", "-"], weight: 25 },
+            { ops: ["-", "+"], weight: 25 }
+        ]
+    },
+    {
+        minDifficulty: 10,
+        combinations: [
+            { ops: ["+"], weight: 12.5 },
+            { ops: ["-"], weight: 12.5 },
+            { ops: ["+", "-"], weight: 12.5 },
+            { ops: ["-", "+"], weight: 12.5 },
+            { ops: ["×"], weight: 25 },
+            { ops: ["/"], weight: 25 }
+        ]
+    },
+    {
+        minDifficulty: 15,
+        combinations: [
+            { ops: ["×", "+"], weight: 20 },
+            { ops: ["+", "+", "+"], weight: 20 },
+            { ops: ["×", "-"], weight: 20 },
+            { ops: ["-", "×"], weight: 20 },
+            { ops: ["/", "+", "-"], weight: 20 }
+        ]
+    }
 ];
 
 // ===============================
@@ -43,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startTimer();
     inputEl.focus();
 
-    inputEl.addEventListener("keydown", e => {
+    inputEl.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !freeze) {
             checkAnswer();
         }
@@ -60,7 +92,9 @@ function startTimer() {
             timeLeft--;
             updateTimer();
 
-            if (timeLeft <= 0) endGame();
+            if (timeLeft <= 0) {
+                endGame();
+            }
         }
     }, 1000);
 }
@@ -72,8 +106,11 @@ function startTimer() {
 function checkAnswer() {
     const userAnswer = Number(inputEl.value);
 
-    if (userAnswer === currentAnswer) handleCorrect();
-    else handleWrong();
+    if (userAnswer === currentAnswer) {
+        handleCorrect();
+    } else {
+        handleWrong();
+    }
 
     inputEl.value = "";
 }
@@ -85,8 +122,8 @@ function checkAnswer() {
 function handleCorrect() {
     timeLeft += 10;
     addScore();
-    difficulty++;
     questionCount++;
+    difficulty++;
     generateQuestion();
     updateHUD();
 }
@@ -97,10 +134,12 @@ function handleCorrect() {
 
 function handleWrong() {
     timeLeft -= 10;
+    updateTimer();
     freeze = true;
     inputEl.disabled = true;
-    difficulty++;
+
     questionCount++;
+    difficulty++;
     generateQuestion();
     updateHUD();
 
@@ -125,82 +164,68 @@ function addScore() {
 // ===============================
 
 function generateQuestion() {
-    let dificuldadeRestante = difficulty;
-    let expressao = "";
-    let primeiraParte = true;
+    const combination = pickCombination(difficulty);
+    const ops = combination.ops;
 
-    while (dificuldadeRestante >= 0) {
-        // operadores possíveis que cabem na dificuldade restante
-        const possiveis = operadores.filter(o => o.peso <= dificuldadeRestante);
-        if (possiveis.length === 0) break;
+    let numbers = [];
+    let questionStr = "";
 
-        const op = possiveis[rand(0, possiveis.length - 1)];
-        dificuldadeRestante -= op.peso;
+    for (let i = 0; i <= ops.length; i++) {
+        numbers.push(rand(1, 20));
+    }
 
-        let parte = "";
-
-        switch (op.simbolo) {
-
-            case "+":
-                const a1 = rand(1, 20);
-                const b1 = rand(1, 20);
-                parte = `${a1} + ${b1}`;
-                break;
-
-            case "-":
-                const a2 = rand(5, 30);
-                const b2 = rand(1, a2);
-                parte = `${a2} - ${b2}`;
-                break;
-
-            case "*":
-                const a3 = rand(1, 12);
-                const b3 = rand(1, 12);
-                parte = `${a3} × ${b3}`;
-                break;
-
-            case "/":
-                const divisor = rand(1, 12);
-                const resultado = rand(1, 12);
-                const numerador = divisor * resultado;
-                parte = `${numerador} ÷ ${divisor}`;
-                break;
-
-            case "**":
-                const base = rand(2, 5);
-                const expoente = rand(2, 3);
-                parte = `${base}<sup>${expoente}</sup>`;
-                break;
-
-            case "√":
-                const raiz = rand(2, 12);
-                const quadrado = raiz * raiz;
-                parte = `√${quadrado}`;
-                break;
-        }
-
-        if (primeiraParte) {
-            expressao += parte;
-            primeiraParte = false;
-        } else {
-            expressao += " + " + parte; // conectando blocos
+    // Ajuste para divisões inteiras
+    for (let i = 0; i < ops.length; i++) {
+        if (ops[i] === "/") {
+            const divisor = numbers[i + 1];
+            const dividend = divisor * rand(1, 10);
+            numbers[i] = dividend;
         }
     }
 
-    questionEl.innerHTML = expressao;
+    // Monta pergunta como string
+    questionStr = "" + numbers[0];
+    currentAnswer = numbers[0];
 
-    // calcular resposta
-    try {
-        let exprJS = expressao
-            .replace(/×/g, "*")
-            .replace(/÷/g, "/")
-            .replace(/<sup>(.*?)<\/sup>/g, "**$1")
-            .replace(/√(\d+)/g, "Math.sqrt($1)");
+    for (let i = 0; i < ops.length; i++) {
+        const op = ops[i];
+        const num = numbers[i + 1];
+        questionStr += ` ${op} ${num}`;
 
-        currentAnswer = Math.floor(eval(exprJS));
-    } catch {
-        currentAnswer = 0;
+        // Calcula resposta
+        switch (op) {
+            case "+": currentAnswer += num; break;
+            case "-": currentAnswer -= num; break;
+            case "×": currentAnswer *= num; break;
+            case "/": currentAnswer = Math.floor(currentAnswer / num); break;
+        }
     }
+
+    questionEl.textContent = questionStr;
+}
+
+// ===============================
+// PICK COMBINATION BASED ON DIFFICULTY
+// ===============================
+
+function pickCombination(difficulty) {
+    let available = [];
+
+    for (let i = 0; i < OPERATOR_COMBINATIONS.length; i++) {
+        if (difficulty >= OPERATOR_COMBINATIONS[i].minDifficulty) {
+            available = available.concat(OPERATOR_COMBINATIONS[i].combinations);
+        }
+    }
+
+    // Sorteio baseado em peso
+    const totalWeight = available.reduce((acc, c) => acc + c.weight, 0);
+    let r = Math.random() * totalWeight;
+    for (let i = 0; i < available.length; i++) {
+        if (r < available[i].weight) return available[i];
+        r -= available[i].weight;
+    }
+
+    return available[0];
 }
 
 // ===============================
@@ -221,7 +246,8 @@ function updateTimer() {
 
 function updateHUD() {
     updateTimer();
-    scoreEl.textContent = `⭐ ${difficulty}`;
+    scoreEl.textContent = `⭐ ${score}`;
+    difficultyEl.textContent = difficulty;
     questionCountEl.textContent = `📊 ${questionCount}`;
 }
 
@@ -233,12 +259,4 @@ function endGame() {
     clearInterval(timerInterval);
     inputEl.disabled = true;
     questionEl.textContent = "Fim de jogo!";
-}
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('../sw.js')
-            .then(reg => console.log('Service Worker registrado!', reg))
-            .catch(err => console.log('Falha no registro do SW', err));
-    });
 }
