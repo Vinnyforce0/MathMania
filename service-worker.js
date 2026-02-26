@@ -1,4 +1,4 @@
-const CACHE_NAME = 'MathMania.3';
+const CACHE_NAME = 'MathMania';
 const ASSETS_TO_CACHE = [
   './MathMania/',
   './MathMania/index.html',
@@ -16,7 +16,7 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS_TO_CACHE).catch(err => console.warn('Falha ao cachear:', err)))
+      .then(cache => cache.addAll(ASSETS_TO_CACHE))
   );
 });
 
