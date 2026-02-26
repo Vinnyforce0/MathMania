@@ -1,9 +1,12 @@
-const CACHE_NAME = 'math-mania-cache-v1';
+const CACHE_NAME = 'math-mania-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
-  // add additional assets as needed
+  '/CSS/styles.css',
+  '/HTML/indice.html',
+  '/HTML/iniciar.html',
+  '/HTML/opcoes.html'
 ];
 
 self.addEventListener('install', event => {
