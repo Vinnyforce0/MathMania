@@ -9,17 +9,17 @@
   "icons": [
     {
       "src": "IMAGES/floor.jpg",
-      "sizes": "192x192",
+      "sizes": "128x128",
       "type": "image/jpeg"
     },
     {
       "src": "IMAGES/laser.png",
-      "sizes": "512x512",
+      "sizes": "850x430",
       "type": "image/png"
     },
     {
       "src": "IMAGES/sky.jpg",
-      "sizes": "512x512",
+      "sizes": "1123x794",
       "type": "image/jpeg"
     }
   ]
