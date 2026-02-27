@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <div id="appVersion" style="position: fixed; bottom: 10px; right: 10px; color: #fff;">
-            Versão: 1.0.11
+            Versão: 1.0.12
         </div>
         <h1>MathMania</h1>
         <div class="buttons-group">
@@ -23,6 +23,14 @@
     </div>
 
     <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistration().then(reg => {
+                if (reg) {
+                    reg.update(); // força buscar a versão mais recente do SW
+                    console.log("Tentando atualizar o Service Worker...");
+                }
+            });
+        }
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('service-worker.js', { scope: './' })
