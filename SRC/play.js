@@ -3,7 +3,7 @@
 // ===============================
 
 let timeLeft = 70;
-let difficulty = 1;
+let difficulty = 20;
 let score = 0;
 let questionCount = 0;
 let currentAnswer = 0;
@@ -56,13 +56,53 @@ const OPERATOR_COMBINATIONS = [
     {
         minDifficulty: 15,
         combinations: [
-            { ops: ["×", "+"], weight: 20 },
+            { ops: ["+"], weight: 0 },
+            { ops: ["-"], weight: 0 },
+            { ops: ["+", "-"], weight: 0 },
+            { ops: ["-", "+"], weight: 0 },
+            { ops: ["×"], weight: 10 },
+            { ops: ["/"], weight: 10 },
+            { ops: ["×", "+"], weight: 10 },
             { ops: ["+", "+", "+"], weight: 20 },
-            { ops: ["×", "-"], weight: 20 },
+            { ops: ["×", "-"], weight: 10 },
             { ops: ["-", "×"], weight: 20 },
-            { ops: ["/", "+", "-"], weight: 20 }
+            { ops: ["/", "+"], weight: 10 },
+            { ops: ["/", "-"], weight: 10 }
         ]
-    }
+    },
+    {
+        minDifficulty: 20,
+        combinations: [
+            { ops: ["×"], weight: 0 },
+            { ops: ["/"], weight: 0 },
+            { ops: ["×", "+"], weight: 0 },
+            { ops: ["+", "+", "+"], weight: 0 },
+            { ops: ["×", "-"], weight: 0 },
+            { ops: ["-", "×"], weight: 0 },
+            { ops: ["/", "+", "-"], weight: 0 },
+            { ops: ["^"], weight: 20 },
+            { ops: ["√"], weight: 20 },
+            { ops: ["^", "+"], weight: 15 },
+            { ops: ["^", "-"], weight: 15 },
+            { ops: ["√", "+"], weight: 15 },
+            { ops: ["√", "-"], weight: 15 },
+        ]
+    },
+    {
+        minDifficulty: 25,
+        combinations: [
+            { ops: ["^"], weight: 0 },
+            { ops: ["√"], weight: 0 },
+            { ops: ["^", "+"], weight: 0 },
+            { ops: ["+", "^"], weight: 0 },
+            { ops: ["√", "+"], weight: 0 },
+            { ops: ["+", "√"], weight: 0 },
+            { ops: ["√", "+", "√"], weight: 25 },
+            { ops: ["√", "-", "√"], weight: 25 },
+            { ops: ["^", "+", "^"], weight: 25 },
+            { ops: ["^", "-", "^"], weight: 25 },
+        ]
+    },
 ];
 
 // ===============================
@@ -164,44 +204,102 @@ function addScore() {
 // ===============================
 
 function generateQuestion() {
+
     const combination = pickCombination(difficulty);
     const ops = combination.ops;
 
-    let numbers = [];
-    let questionStr = "";
+    let displayExpr = "";
+    let evalExpr = "";
 
-    for (let i = 0; i <= ops.length; i++) {
-        numbers.push(rand(1, 20));
-    }
-
-    // Ajuste para divisões inteiras
-    for (let i = 0; i < ops.length; i++) {
-        if (ops[i] === "/") {
-            const divisor = numbers[i + 1];
-            const dividend = divisor * rand(1, 10);
-            numbers[i] = dividend;
-        }
-    }
-
-    // Monta pergunta como string
-    questionStr = "" + numbers[0];
-    currentAnswer = numbers[0];
+    // Número inicial
+    let start = rand(1, 10);
+    displayExpr = "" + start;
+    evalExpr = "" + start;
 
     for (let i = 0; i < ops.length; i++) {
-        const op = ops[i];
-        const num = numbers[i + 1];
-        questionStr += ` ${op} ${num}`;
 
-        // Calcula resposta
-        switch (op) {
-            case "+": currentAnswer += num; break;
-            case "-": currentAnswer -= num; break;
-            case "×": currentAnswer *= num; break;
-            case "/": currentAnswer = Math.floor(currentAnswer / num); break;
+        let op = ops[i];
+
+        // ===============================
+        // POTÊNCIA CONTROLADA
+        // ===============================
+        if (op === "^") {
+
+            const base = rand(1, 5);      // base até 5
+            const exponent = rand(2, 4);  // expoente até 4
+
+            displayExpr = `${base}<sup>${exponent}</sup>`;
+            evalExpr = `${base}**${exponent}`;
+            continue;
         }
+
+        // ===============================
+        // RAIZ CONTROLADA
+        // ===============================
+        if (op === "√") {
+
+            const rootBase = rand(1, 15); // controla dificuldade aqui
+            const perfectSquare = rootBase * rootBase;
+
+            displayExpr = `√(${perfectSquare})`;
+            evalExpr = `${rootBase}`;
+            continue;
+        }
+
+        // ===============================
+        // DIVISÃO LIMPA (respeita padrão)
+        // ===============================
+        // ===============================
+        // DIVISÃO 100% SEGURA
+        // ===============================
+        if (op === "/") {
+
+            const currentValue = Function("return " + evalExpr)();
+
+            // Se não for inteiro, não permite divisão
+            if (!Number.isInteger(currentValue)) {
+                continue; // pula essa operação
+            }
+
+            let divisorOptions = [];
+
+            for (let i = 1; i <= 10; i++) {
+                if (currentValue % i === 0) {
+                    divisorOptions.push(i);
+                }
+            }
+
+            if (divisorOptions.length === 0) {
+                continue; // não existe divisor válido
+            }
+
+            const divisor = divisorOptions[rand(0, divisorOptions.length - 1)];
+
+            displayExpr += ` / ${divisor}`;
+            evalExpr += ` / ${divisor}`;
+            continue;
+        }
+
+        // ===============================
+        // MULTIPLICAÇÃO
+        // ===============================
+        if (op === "×") {
+            op = "*";
+        }
+
+        const nextNumber = rand(1, 10);
+
+        displayExpr += ` ${ops[i]} ${nextNumber}`;
+        evalExpr += ` ${op} ${nextNumber}`;
     }
 
-    questionEl.textContent = questionStr;
+    try {
+        currentAnswer = Math.floor(Function("return " + evalExpr)());
+    } catch {
+        currentAnswer = 0;
+    }
+
+    questionEl.innerHTML = displayExpr;
 }
 
 // ===============================
@@ -209,17 +307,22 @@ function generateQuestion() {
 // ===============================
 
 function pickCombination(difficulty) {
-    let available = [];
+
+    // Encontra o bloco correto (o maior minDifficulty <= difficulty)
+    let selectedBlock = OPERATOR_COMBINATIONS[0];
 
     for (let i = 0; i < OPERATOR_COMBINATIONS.length; i++) {
         if (difficulty >= OPERATOR_COMBINATIONS[i].minDifficulty) {
-            available = available.concat(OPERATOR_COMBINATIONS[i].combinations);
+            selectedBlock = OPERATOR_COMBINATIONS[i];
         }
     }
+
+    const available = selectedBlock.combinations;
 
     // Sorteio baseado em peso
     const totalWeight = available.reduce((acc, c) => acc + c.weight, 0);
     let r = Math.random() * totalWeight;
+
     for (let i = 0; i < available.length; i++) {
         if (r < available[i].weight) return available[i];
         r -= available[i].weight;
@@ -246,9 +349,8 @@ function updateTimer() {
 
 function updateHUD() {
     updateTimer();
-    scoreEl.textContent = `⭐ ${score}`;
-    difficultyEl.textContent = difficulty;
-    questionCountEl.textContent = `📊 ${questionCount}`;
+    scoreEl.textContent = `⭐ ${currentAnswer}`;
+    questionCountEl.textContent = `📊 ${difficulty}`;
 }
 
 // ===============================
