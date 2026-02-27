@@ -3,7 +3,7 @@
 // ===============================
 
 let timeLeft = 70;
-let difficulty = 20;
+let difficulty = 1;
 let score = 0;
 let questionCount = 0;
 let currentAnswer = 0;
@@ -349,8 +349,8 @@ function updateTimer() {
 
 function updateHUD() {
     updateTimer();
-    scoreEl.textContent = `⭐ ${currentAnswer}`;
-    questionCountEl.textContent = `📊 ${difficulty}`;
+    scoreEl.textContent = `⭐ ${score}`;
+    questionCountEl.textContent = `📊 ${questionCount}`;
 }
 
 // ===============================

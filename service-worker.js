@@ -6,7 +6,8 @@ importScripts('./SRC/config.js');
 // Detecta localhost/Live Server (/) ou GitHub Pages (/Raycasting/)
 const isDev = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
 const BASE_PATH = isDev ? '/' : '/MathMania/';
-const CACHE_NAME = 'mathmania-v' + APP_VERSION;
+const CACHE_PREFIX = 'mathmania-';
+const CACHE_NAME = CACHE_PREFIX + 'v' + APP_VERSION;
 const ASSETS_TO_CACHE = [
   BASE_PATH,
   BASE_PATH + 'index.html',
@@ -38,17 +39,21 @@ self.addEventListener('install', event => {
 // Evento de ativação - limpa caches antigos
 self.addEventListener('activate', event => {
   console.log('Service worker ativado');
+
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
+        cacheNames
+          .filter(cacheName =>
+            cacheName.startsWith(CACHE_PREFIX) &&
+            cacheName !== CACHE_NAME
+          )
+          .map(cacheName => {
             console.log('Deletando cache antigo:', cacheName);
             return caches.delete(cacheName);
-          }
-        })
+          })
       );
-    }).then(() => self.clients.claim()) // assume o controle das abas
+    }).then(() => self.clients.claim())
   );
 });
 
