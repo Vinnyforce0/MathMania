@@ -11,15 +11,14 @@
 
 <body>
     <div class="container">
-        <div id="version" class="version">
-            Versão:
+        <div id="appVersion" style="position: fixed; bottom: 10px; right: 10px; color: #fff;">
+            Versão: ...
         </div>
         <h1>MathMania</h1>
         <div class="buttons-group">
             <button id="startButton" onclick="window.location.href='HTML/iniciar.html'">Iniciar</button>
             <button id="indexButton" onclick="window.location.href='HTML/indice.html'">Índice</button>
             <button id="optionsButton" onclick="window.location.href='HTML/opcoes.html'">Opções</button>
-            <button id="exitButton" onclick="window.close()">Sair</button>
         </div>
     </div>
 
@@ -32,9 +31,11 @@
             });
         }
     </script>
-    <script src="SRC/config.js">
-        const versionElement = document.getElementById('version');
-        versionElement.textContent = "Versão: " + APP_VERSION;
+    <script type="module">
+        import { APP_VERSION } from 'SRC/config.js';
+
+        const versionDiv = document.getElementById('appVersion');
+        versionDiv.textContent = `Versão: ${APP_VERSION}`;
     </script>
 </body>
 
