@@ -24,6 +24,14 @@
 
     <script>
         if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistration().then(reg => {
+                if (reg) {
+                    reg.update(); // força buscar a versão mais recente do SW
+                    console.log("Tentando atualizar o Service Worker...");
+                }
+            });
+        }
+        if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('service-worker.js', { scope: './' })
                     .then(reg => console.log('Service Worker registrado!', reg))
@@ -31,12 +39,8 @@
             });
         }
     </script>
-    <script type="module">
-        import { APP_VERSION } from 'SRC/config.js';
-
-        const versionDiv = document.getElementById('appVersion');
-        versionDiv.textContent = `Versão: ${APP_VERSION}`;
-    </script>
+    <script src="SRC/config.js" defer></script>
 </body>
+
 
 </html>
