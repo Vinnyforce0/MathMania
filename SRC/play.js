@@ -2,7 +2,7 @@
 // ESTADO DO JOGO
 // ===============================
 
-let timeLeft = 70;
+let timeLeft = 60;
 let difficulty = 1;
 let score = 0;
 let questionCount = 0;
@@ -85,7 +85,7 @@ const OPERATOR_COMBINATIONS = [
             { ops: ["^", "+"], weight: 15 },
             { ops: ["^", "-"], weight: 15 },
             { ops: ["√", "+"], weight: 15 },
-            { ops: ["√", "-"], weight: 15 },
+            { ops: ["√", "-"], weight: 15 }
         ]
     },
     {
@@ -97,10 +97,44 @@ const OPERATOR_COMBINATIONS = [
             { ops: ["+", "^"], weight: 0 },
             { ops: ["√", "+"], weight: 0 },
             { ops: ["+", "√"], weight: 0 },
-            { ops: ["√", "+", "√"], weight: 25 },
-            { ops: ["√", "-", "√"], weight: 25 },
-            { ops: ["^", "+", "^"], weight: 25 },
-            { ops: ["^", "-", "^"], weight: 25 },
+            { ops: ["^-^"], weight: 25 },
+            { ops: ["^+^"], weight: 25 },
+            { ops: ["√-√"], weight: 25 },
+            { ops: ["√+√"], weight: 25 }
+        ]
+    },
+    {
+        minDifficulty: 30,
+        combinations: [
+            { ops: ["√", "+", "√"], weight: 0 },
+            { ops: ["√", "-", "√"], weight: 0 },
+            { ops: ["^", "+", "^"], weight: 0 },
+            { ops: ["^", "-", "^"], weight: 0 },
+            { ops: ["#"], weight: 100 }
+        ]
+    },
+    {
+        minDifficulty: 35,
+        combinations: [
+            { ops: ["#"], weight: 0 },
+            { ops: ["#", "+"], weight: 50 },
+            { ops: ["#", "-"], weight: 50 }
+        ]
+    },
+    {
+        minDifficulty: 40,
+        combinations: [
+            { ops: ["#", "+"], weight: 0 },
+            { ops: ["#", "-"], weight: 0 },
+            { ops: ["!"], weight: 100 }
+        ]
+    },
+    {
+        minDifficulty: 45,
+        combinations: [
+            { ops: ["!"], weight: 0 },
+            { ops: ["!", "+"], weight: 50 },
+            { ops: ["!", "-"], weight: 50 }
         ]
     },
 ];
@@ -203,6 +237,24 @@ function addScore() {
 // GERADOR DE PERGUNTAS
 // ===============================
 
+function factorial(n) {
+    if (n < 0) return 1;
+    let result = 1;
+    for (let i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}
+
+function termial(n) {
+    if (n < 0) return 1;
+    let result = 1;
+    for (let i = 2; i <= n; i++) {
+        result += i;
+    }
+    return result;
+}
+
 function generateQuestion() {
 
     const combination = pickCombination(difficulty);
@@ -224,7 +276,6 @@ function generateQuestion() {
         // POTÊNCIA CONTROLADA
         // ===============================
         if (op === "^") {
-
             const base = rand(1, 5);      // base até 5
             const exponent = rand(2, 4);  // expoente até 4
 
@@ -237,12 +288,95 @@ function generateQuestion() {
         // RAIZ CONTROLADA
         // ===============================
         if (op === "√") {
-
             const rootBase = rand(1, 15); // controla dificuldade aqui
             const perfectSquare = rootBase * rootBase;
 
-            displayExpr = `√(${perfectSquare})`;
+            displayExpr = `√${perfectSquare}`;
             evalExpr = `${rootBase}`;
+            continue;
+        }
+
+        // ===============================
+        // POTÊNCIA + POTÊNCIA
+        // ===============================
+
+        if (op === "^+^") {
+            const basePlus1 = rand(1, 5);      // base até 5
+            const exponentPlus1 = rand(2, 3);  // expoente até 3
+
+            const basePlus2 = rand(1, 5);      // base até 5
+            const exponentPlus2 = rand(2, 3);  // expoente até 3
+
+            displayExpr = `${basePlus1}<sup>${exponentPlus1}</sup> + ${basePlus2}<sup>${exponentPlus2}</sup>`;
+            evalExpr = `(${basePlus1}**${exponentPlus1}) + (${basePlus2}**${exponentPlus2})`;
+            continue;
+        }
+
+        // ===============================
+        // RAIZ + RAIZ
+        // ===============================
+
+        if (op === "√+√") {
+            const rootBase1 = rand(1, 15); // controla dificuldade aqui
+            const perfectSquare1 = rootBase1 * rootBase1;
+
+            const rootBase2 = rand(1, 15); // controla dificuldade aqui
+            const perfectSquare2 = rootBase2 * rootBase2;
+
+            displayExpr = `√${perfectSquare1} + √${perfectSquare2}`;
+            evalExpr = `(${rootBase1}) + (${rootBase2})`;
+            continue;
+        }
+
+        // ===============================
+        // POTÊNCIA - POTÊNCIA
+        // ===============================
+
+        if (op === "^-^") {
+            const baseMinus1 = rand(1, 5);      // base até 5
+            const exponentMinus1 = rand(2, 3);  // expoente até 4
+
+            const baseMinus2 = rand(1, 5);      // base até 5
+            const exponentMinus2 = rand(2, 3);  // expoente até 4
+
+            displayExpr = `${baseMinus1}<sup>${exponentMinus1}</sup> - ${baseMinus2}<sup>${exponentMinus2}</sup>`;
+            evalExpr = `(${baseMinus1}**${exponentMinus1}) - (${baseMinus2}**${exponentMinus2})`;
+            continue;
+        }
+
+        // ===============================
+        // RAIZ - RAIZ
+        // ===============================
+
+        if (op === "√-√") {
+            const rootBaseMinus1 = rand(2, 15); // controla dificuldade aqui
+            const perfectSquareMinus1 = rootBaseMinus1 * rootBaseMinus1;
+
+            const rootBaseMinus2 = rand(2, 15); // controla dificuldade aqui
+            const perfectSquareMinus2 = rootBaseMinus2 * rootBaseMinus2;
+
+            displayExpr = `√${perfectSquareMinus1} - √${perfectSquareMinus2}`;
+            evalExpr = `(${rootBaseMinus1}) - (${rootBaseMinus2})`;
+            continue;
+
+        }
+
+        if (op === "!") {
+            const fatorBase = rand(2, 6);
+            const fatorResult = factorial(fatorBase);
+
+            displayExpr = `${fatorBase}!`;
+            evalExpr = `${fatorResult}`;
+            continue;
+        }
+
+
+        if (op === "#") {
+            const termiBase = rand(2, 6);
+            const termiResult = termial(termiBase);
+
+            displayExpr = `${termiBase}#`;
+            evalExpr = `${termiResult}`;
             continue;
         }
 
@@ -252,6 +386,7 @@ function generateQuestion() {
         // ===============================
         // DIVISÃO 100% SEGURA
         // ===============================
+
         if (op === "/") {
 
             const currentValue = Function("return " + evalExpr)();
@@ -349,8 +484,8 @@ function updateTimer() {
 
 function updateHUD() {
     updateTimer();
-    scoreEl.textContent = `⭐ ${score}`;
-    questionCountEl.textContent = `📊 ${questionCount}`;
+    scoreEl.textContent = `⭐ ${difficulty}`;
+    questionCountEl.textContent = `📊 ${currentAnswer}`;
 }
 
 // ===============================
