@@ -57,6 +57,14 @@ body:not(.game-page)::after {
     position: relative;
 }
 
+.version {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    z-index: 10;
+}
 h1 {
     font-size: 3rem;
     color: white;

@@ -11,7 +11,10 @@
 
 <body>
     <div class="container">
-        <h1>Math Mania</h1>
+        <div id="version" class="version">
+            Versão:
+        </div>
+        <h1>MathMania</h1>
         <div class="buttons-group">
             <button id="startButton" onclick="window.location.href='HTML/iniciar.html'">Iniciar</button>
             <button id="indexButton" onclick="window.location.href='HTML/indice.html'">Índice</button>
@@ -28,6 +31,10 @@
                     .catch(err => console.log('Falha no registro do SW', err));
             });
         }
+    </script>
+    <script src="SRC/config.js">
+        const versionElement = document.getElementById('version');
+        versionElement.textContent = "Versão: " + APP_VERSION;
     </script>
 </body>
 
