@@ -2,7 +2,7 @@
 // ESTADO DO JOGO
 // ===============================
 
-let timeLeft = 60;
+let timeLeft = 50;
 let difficulty = 1;
 let score = 0;
 let questionCount = 0;
@@ -484,8 +484,8 @@ function updateTimer() {
 
 function updateHUD() {
     updateTimer();
-    scoreEl.textContent = `⭐ ${difficulty}`;
-    questionCountEl.textContent = `📊 ${currentAnswer}`;
+    scoreEl.textContent = `⭐ ${score}`;
+    questionCountEl.textContent = `📊 ${questionCount}`;
 }
 
 // ===============================
@@ -495,5 +495,15 @@ function updateHUD() {
 function endGame() {
     clearInterval(timerInterval);
     inputEl.disabled = true;
-    questionEl.textContent = "Fim de jogo!";
+    let dots = ".";
+    let text = "Fim de jogo";
+    const interval = setInterval(() => {
+        questionEl.textContent = text + dots;
+        dots = dots.length < 3 ? dots + "." : "";
+    }, 500);
+
+    setTimeout(() => {
+        clearInterval(interval);
+        window.location.href = '../index.html';
+    }, 4000);
 }
