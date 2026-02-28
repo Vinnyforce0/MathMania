@@ -38,6 +38,21 @@
             });
         }
     </script>
+    <script>
+        if (window.visualViewport) {
+            // Função para neutralizar o deslocamento do teclado
+            function lockViewport() {
+                document.body.style.transform = `translateY(${-window.visualViewport.offsetTop}px)`;
+            }
+
+            // Quando o teclado abre ou fecha, ou se houver scroll virtual
+            window.visualViewport.addEventListener('resize', lockViewport);
+            window.visualViewport.addEventListener('scroll', lockViewport);
+
+            // Aplica imediatamente
+            lockViewport();
+        }
+    </script>
 </body>
 
 </html>
