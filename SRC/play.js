@@ -551,8 +551,8 @@ function updateTimer() {
 
 function updateHUD() {
     updateTimer();
-    scoreEl.textContent = `⭐ ${difficulty}`;
-    questionCountEl.textContent = `📊 ${currentAnswer}`;
+    scoreEl.textContent = `⭐ ${score}`;
+    questionCountEl.textContent = `📊 ${questionCount}`;
 }
 
 // ===============================

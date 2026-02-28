@@ -376,13 +376,6 @@ button:hover:not(.operator-modal-content button) {
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation: none !important;
-        transition: none !important;
-    }
-}
-
 /* ======================================================
    3️⃣ INDEX PAGE (COLEÇÃO DE OPERADORES)
 ====================================================== */
