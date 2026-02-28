@@ -25,7 +25,7 @@
 
     <!-- ÁREA DE RESPOSTA -->
     <div id="answer-area">
-        <input type="number" id="answerInput" inputmode="numeric" autocomplete="off" placeholder="Resposta">
+        <input type="text" id="answerInput" inputmode="numeric" placeholder="Resposta">
     </div>
 
     <script src="../SRC/play.js" defer></script>
@@ -36,21 +36,6 @@
                     .then(reg => console.log('Service Worker registrado!', reg))
                     .catch(err => console.log('Falha no registro do SW', err));
             });
-        }
-    </script>
-    <script>
-        if (window.visualViewport) {
-            // Função para neutralizar o deslocamento do teclado
-            function lockViewport() {
-                document.body.style.transform = `translateY(${-window.visualViewport.offsetTop}px)`;
-            }
-
-            // Quando o teclado abre ou fecha, ou se houver scroll virtual
-            window.visualViewport.addEventListener('resize', lockViewport);
-            window.visualViewport.addEventListener('scroll', lockViewport);
-
-            // Aplica imediatamente
-            lockViewport();
         }
     </script>
 </body>

@@ -20,6 +20,7 @@ const scoreEl = document.getElementById("scoreDisplay");
 const difficultyEl = document.getElementById("difficulty");
 const questionCountEl = document.getElementById("questionCount");
 const questionEl = document.getElementById("question");
+const answerEl = document.getElementById("answer-area");
 const inputEl = document.getElementById("answerInput");
 
 // ===============================
@@ -502,6 +503,7 @@ function endGame() {
     clearInterval(timerInterval);
     inputEl.disabled = true;
     let dots = ".";
+    answerEl.style.bottom = "50%";
     let text = "Fim de jogo";
     const interval = setInterval(() => {
         questionEl.textContent = text + dots;

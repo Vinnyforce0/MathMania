@@ -1,6 +1,6 @@
 /* ======================================================
    1️⃣ RESET GLOBAL
-====================================================== */
+   ====================================================== */
 
 * {
     margin: 0;
@@ -128,11 +128,9 @@ button:hover {
    GAME PAGE LAYOUT NOVO
 ====================================================== */
 
-#hud {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-}
+/* =========================
+   GAME PAGE - RESPONSIVO
+========================= */
 
 .game-page {
     height: 100vh;
@@ -167,7 +165,15 @@ button:hover {
    HUD FIXO NOS CANTOS
 ========================= */
 
-.game-page #timer {
+#hud {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    position: relative; /* PC padrão */
+    z-index: 40;
+}
+
+#timer {
     top: 20px;
     left: 20px;
     font-weight: 700;
@@ -177,7 +183,7 @@ button:hover {
     z-index: 10;
 }
 
-.game-page #questionCount {
+#questionCount {
     top: 20px;
     right: 20px;
     font-weight: 700;
@@ -187,8 +193,7 @@ button:hover {
     z-index: 10;
 }
 
-/* SCORE - centro topo */
-.game-page #scoreDisplay {
+#scoreDisplay {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
@@ -205,7 +210,7 @@ button:hover {
    CENTRO DA TELA
 ========================= */
 
-.game-page .center-area {
+.center-area {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -216,7 +221,7 @@ button:hover {
 }
 
 /* Pergunta gigante */
-.game-page #question {
+#question {
     font-size: 4.5rem;
     font-weight: 800;
     color: white;
@@ -230,18 +235,17 @@ button:hover {
    ÁREA DE RESPOSTA
 ========================= */
 
-.game-page #answer-area {
+#answer-area {
     bottom: 0;
     left: 0;
     width: 100%;
     padding: 16px 20px;
     display: flex;
     justify-content: center;
-    background: linear-gradient(to top, #0a0a1a 80%, transparent);
     z-index: 50;
 }
 
-.game-page #answerInput {
+#answerInput {
     width: 260px;
     padding: 16px;
     font-size: 1.6rem;
@@ -254,8 +258,50 @@ button:hover {
     transition: 0.2s ease;
 }
 
-.game-page #answerInput:focus {
+#answerInput:focus {
     box-shadow: 0 0 25px rgba(0, 255, 200, 0.6);
+}
+
+/* =========================
+   RESPONSIVO PARA CELULAR
+========================= */
+
+@media (max-width: 767px) {
+    /* HUD fixo no topo no celular */
+    #hud {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 16px;
+        z-index: 999;
+    }
+
+    /* Centro da tela adaptado abaixo do HUD */
+    .center-area {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 500px;
+        padding: 10px;
+    }
+
+    /* Input sempre abaixo do question */
+    #answer-area {
+        position: absolute;
+        bottom: 60%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 400px;
+        padding: 16px 10px;
+    }
+
+    #answerInput {
+        width: 100%;
+    }
 }
 
 /* ======================================================
