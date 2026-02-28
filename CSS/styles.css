@@ -278,3 +278,159 @@ button:hover {
         transition: none !important;
     }
 }
+
+/* ======================================================
+   3️⃣ INDEX PAGE (COLEÇÃO DE OPERADORES)
+====================================================== */
+
+/* ======================================================
+   INDEX PAGE - COLEÇÃO
+====================================================== */
+
+.index-page {
+    height: 100vh;
+    width: 100vw;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* GRID FIXO 5 COLUNAS */
+.index-page .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 50px;
+}
+
+
+/* 💻 Telas maiores (PC) */
+@media (min-width: 1024px) {
+    .index-page .cards-grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+/* =========================
+   CARTA BASE
+========================= */
+
+.index-page .card {
+    aspect-ratio: 3 / 4;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.2rem;
+    font-weight: 800;
+    transition: transform 0.2s ease;
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto;
+}
+
+/* Hover */
+.index-page .card:hover {
+    transform: scale(1.05);
+}
+
+/* =========================
+   VERSO (BLOQUEADA)
+========================= */
+
+.index-page .card.locked {
+    background: linear-gradient(
+        135deg,
+        #0d1b3d,
+        #000000
+    );
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    cursor: default;
+}
+
+/* =========================
+   FRENTE (DESBLOQUEADA)
+========================= */
+
+.index-page .card.unlocked {
+    background: white;
+    box-shadow:
+        0 0 20px rgba(255, 255, 255, 0.4),
+        0 0 40px rgba(154, 50, 211, 0.3);
+}
+
+/* símbolo central */
+.index-page .card.unlocked span {
+    font-size: 4rem;
+}
+
+@keyframes pulseGlow {
+    0% {
+        text-shadow: 0 0 5px currentColor;
+    }
+    50% {
+        text-shadow:
+            0 0 15px currentColor,
+            0 0 30px currentColor;
+    }
+    100% {
+        text-shadow: 0 0 5px currentColor;
+    }
+}
+
+/* =========================
+   CORES DOS OPERADORES
+   (Você pode expandir)
+========================= */
+
+.op-add { color: #ff1493; }       /* + */
+.op-sub { color: #00ffc8; }       /* - */
+.op-mul { color: #9a32d2; }       /* * */
+.op-div { color: #ff8c00; }       /* / */
+.op-pow { color: #00bfff; }       /* ^ */
+.op-sqrt { color: #ff0000; }       /* √ */
+.op-term { color: #00ff37; }       /* # */
+.op-fat { color: #ffd700; }       /* ! */
+
+/* MINI-CARD DE DESBLOQUEIO */
+.mini-card {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px 30px;
+    font-size: 3rem;
+    font-weight: 900;
+    z-index: 9999;
+    pointer-events: none;
+    text-align: center;
+    animation: popGlow 0.5s forwards, fadeOut 1.5s 0.5s forwards;
+    color: currentColor;
+}
+
+@keyframes popGlow {
+    0% { transform: translateX(-50%) scale(0); opacity: 0; }
+    50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Glow pulsante no símbolo */
+.mini-card span {
+    animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0% { text-shadow: 0 0 5px currentColor; }
+    50% { text-shadow: 0 0 15px currentColor, 0 0 30px currentColor; }
+    100% { text-shadow: 0 0 5px currentColor; }
+}

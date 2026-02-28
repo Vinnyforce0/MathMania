@@ -9,6 +9,7 @@ let questionCount = 0;
 let currentAnswer = 0;
 let freeze = false;
 let timerInterval = null;
+let currentOperatorsUsed = [];
 
 // ===============================
 // ELEMENTOS
@@ -200,6 +201,10 @@ function handleCorrect() {
     difficulty++;
     generateQuestion();
     updateHUD();
+    inputEl.textContent = "";
+    extrairOperadoresValidos(currentOperatorsUsed).forEach(op => {
+        desbloquearOperadorNoJogo(op);
+    });
 }
 
 // ===============================
@@ -259,6 +264,7 @@ function generateQuestion() {
 
     const combination = pickCombination(difficulty);
     const ops = combination.ops;
+    currentOperatorsUsed = ops;
 
     let displayExpr = "";
     let evalExpr = "";
@@ -506,4 +512,67 @@ function endGame() {
         clearInterval(interval);
         window.location.href = '../index.html';
     }, 4000);
+}
+
+
+function mostrarMiniCard(operador) {
+    // 1️⃣ Cria o mini-card
+    const card = document.createElement("div");
+    card.classList.add("mini-card");
+
+    // 2️⃣ Cria o span com o operador e cor correta
+    const span = document.createElement("span");
+    span.textContent = operador;
+    if (mapaClasses[operador]) {
+        span.classList.add(mapaClasses[operador]);
+    }
+    card.appendChild(span);
+
+    // 3️⃣ Adiciona no body
+    document.body.appendChild(card);
+
+    // 4️⃣ Remove depois de 2s (fade out já anima)
+    setTimeout(() => {
+        card.remove();
+    }, 2000);
+}
+
+// 5️⃣ Função para desbloquear operador no jogo e mostrar mini-card
+function desbloquearOperadorNoJogo(operador) {
+    // Pega os operadores já desbloqueados do localStorage
+    let operadores = JSON.parse(localStorage.getItem("operadores")) || {};
+
+    // Se ainda não foi desbloqueado
+    if (!operadores[operador]) {
+        operadores[operador] = true;              // Marca como desbloqueado
+        localStorage.setItem("operadores", JSON.stringify(operadores));
+
+        mostrarMiniCard(operador);               // Mostra o mini-card só agora
+    }
+    // Se já desbloqueado antes, não faz nada (mini-card não aparece)
+}
+
+const mapaClasses = {
+  "+": "op-add",
+  "-": "op-sub",
+  "×": "op-mul",
+  "/": "op-div",
+  "^": "op-pow",
+  "√": "op-sqrt",
+  "#": "op-term",
+  "!": "op-fat",
+};
+
+function extrairOperadoresValidos(opsArray) {
+    const operadoresValidos = [];
+    opsArray.forEach(op => {
+        // Se for operador composto, separa pelos símbolos conhecidos
+        let chars = op.split(/(?=[+\-×\/^√#!])/); // separa cada símbolo reconhecível
+        chars.forEach(c => {
+            if (mapaClasses[c] && !operadoresValidos.includes(c)) {
+                operadoresValidos.push(c);
+            }
+        });
+    });
+    return operadoresValidos;
 }

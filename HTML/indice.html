@@ -9,11 +9,24 @@
     <link rel="stylesheet" href="../CSS/styles.css">
 </head>
 
-<body>
-    <div class="container">
-        <h1>Índice</h1>
-        <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">Voltar</button>
+<body class="index-page">
+    <h1>Índice de Operadores</h1>
+
+    <div class="collection-progress">
+        0 / 12 operadores descobertos
     </div>
+
+    <div class="cards-grid" id="cards"></div>
+    <br>
+    <button onclick="voltar()">Voltar</button>
+
+    <script src="../SRC/operadores.js"></script>
+    <script>
+        function voltar() {
+            window.location.href = "../index.html";
+        }
+    </script>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
