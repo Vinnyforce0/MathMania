@@ -12,17 +12,22 @@
 <body>
     <div class="container">
         <h1>Opções</h1>
+        <button id="resetOperators">Resetar Progresso</button><br>
+
+        <script>
+            document.getElementById("resetOperators").addEventListener("click", () => {
+                // Remove operadores desbloqueados
+                localStorage.removeItem("operadores");
+
+                // Feedback pro usuário
+                alert("Progresso do jogo resetado!");
+
+                // Recarrega a página atual ou volta para o índice
+                window.location.reload(); // ou window.location.href = 'indice.html';
+            });
+        </script>
         <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">Voltar</button>
     </div>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('../service-worker.js', { scope: './' })
-                    .then(reg => console.log('Service Worker registrado!', reg))
-                    .catch(err => console.log('Falha no registro do SW', err));
-            });
-        }
-    </script>
 </body>
 
 </html>

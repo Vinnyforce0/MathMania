@@ -84,6 +84,8 @@ function carregarOperadores() {
       }
 
       card.appendChild(span);
+
+      card.addEventListener("click", () => mostrarInfoOperador(op));
     }
 
     container.appendChild(card);
@@ -111,3 +113,49 @@ function atualizarProgresso(atual, total) {
 document.addEventListener("DOMContentLoaded", () => {
   carregarOperadores();
 });
+
+
+function mostrarInfoOperador(operador) {
+    // Cria o modal de explicação
+    const modal = document.createElement("div");
+    modal.classList.add("operator-modal");
+
+    // Conteúdo do modal
+    const content = document.createElement("div");
+    content.classList.add("operator-modal-content");
+
+    // Título com o operador
+    const title = document.createElement("h2");
+    title.textContent = `${operador}`;
+
+    // Explicação (você pode personalizar cada operador)
+    const description = document.createElement("p");
+    description.textContent = descricaoOperador(operador);
+
+    // Botão de fechar
+    const closeBtn = document.createElement("button");
+    closeBtn.textContent = "Fechar";
+    closeBtn.addEventListener("click", () => modal.remove());
+
+    // Monta o modal
+    content.appendChild(title);
+    content.appendChild(description);
+    content.appendChild(closeBtn);
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+}
+
+// Função que retorna uma explicação para cada operador
+function descricaoOperador(op) {
+    const descricoes = {
+        "+": "Soma: adiciona dois números.",
+        "-": "Subtração: remove o segundo número do primeiro.",
+        "×": "Multiplicação: multiplica dois números.",
+        "/": "Divisão: divide o primeiro número pelo segundo.",
+        "^": "Potência: eleva um número a outro.",
+        "√": "Raiz quadrada: calcula a raiz de um número.",
+        "#": "Termial: soma todos os números de 1 até n",
+        "!": "Fatorial: multiplica todos os números de 1 até n."
+    };
+    return descricoes[op] || "Descrição não disponível.";
+}
