@@ -139,6 +139,14 @@ const OPERATOR_COMBINATIONS = [
             { ops: ["!", "-"], weight: 50 }
         ]
     },
+    {
+        minDifficulty: 50,
+        combinations: [
+            { ops: ["!", "+"], weight: 0 },
+            { ops: ["!", "-"], weight: 0 },
+            { ops: ["Σ"], weight: 100 }
+        ]
+    },
 ];
 
 // ===============================
@@ -261,11 +269,63 @@ function termial(n) {
     return result;
 }
 
+function gerarSomatorio() {
+
+    const inicio = rand(1, 3);
+    const fim = rand(4, 6);
+
+    const termosPossiveis = ["X", "2X", "3X", "4X"];
+    const termo = termosPossiveis[rand(0, termosPossiveis.length - 1)];
+
+    // Soma simples de a até b
+    const soma = ((fim * (fim + 1)) / 2) - (((inicio - 1) * inicio) / 2);
+
+    let resultado = 0;
+
+    switch (termo) {
+        case "X":
+            resultado = soma;
+            break;
+        case "2X":
+            resultado = 2 * soma;
+            break;
+        case "3X":
+            resultado = 3 * soma;
+            break;
+        case "4X":
+            resultado = 4 * soma;
+            break;
+    }
+
+    currentAnswer = resultado;
+
+    renderSomatorio(inicio, fim, termo);
+}
+
+function renderSomatorio(inicio, fim, termo) {
+    questionEl.innerHTML = `
+      <div class="somatorio">
+        <div class="limite">${fim}</div>
+        <div class="sigma-termo">
+          <span class="sigma">Σ</span>
+          <span class="termo">  ${termo}</span>
+        </div>
+        <div class="limite">X = ${inicio}</div>
+      </div>
+    `;
+}
+
 function generateQuestion() {
 
     const combination = pickCombination(difficulty);
     const ops = combination.ops;
     currentOperatorsUsed = ops;
+
+    // ======== SE FOR SOMATÓRIO ========
+    if (ops.includes("Σ")) {
+        gerarSomatorio();
+        return;
+    }
 
     let displayExpr = "";
     let evalExpr = "";
@@ -491,8 +551,8 @@ function updateTimer() {
 
 function updateHUD() {
     updateTimer();
-    scoreEl.textContent = `⭐ ${score}`;
-    questionCountEl.textContent = `📊 ${questionCount}`;
+    scoreEl.textContent = `⭐ ${difficulty}`;
+    questionCountEl.textContent = `📊 ${currentAnswer}`;
 }
 
 // ===============================
@@ -555,21 +615,22 @@ function desbloquearOperadorNoJogo(operador) {
 }
 
 const mapaClasses = {
-  "+": "op-add",
-  "-": "op-sub",
-  "×": "op-mul",
-  "/": "op-div",
-  "^": "op-pow",
-  "√": "op-sqrt",
-  "#": "op-term",
-  "!": "op-fat",
+    "+": "op-add",
+    "-": "op-sub",
+    "×": "op-mul",
+    "/": "op-div",
+    "^": "op-pow",
+    "√": "op-sqrt",
+    "#": "op-term",
+    "!": "op-fat",
+    "Σ": "op-sig",
 };
 
 function extrairOperadoresValidos(opsArray) {
     const operadoresValidos = [];
     opsArray.forEach(op => {
         // Se for operador composto, separa pelos símbolos conhecidos
-        let chars = op.split(/(?=[+\-×\/^√#!])/); // separa cada símbolo reconhecível
+        let chars = op.split(/(?=[+\-×\/^√#!Σ])/); // separa cada símbolo reconhecível
         chars.forEach(c => {
             if (mapaClasses[c] && !operadoresValidos.includes(c)) {
                 operadoresValidos.push(c);

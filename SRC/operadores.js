@@ -11,6 +11,7 @@ const listaOperadores = {
   "√": {},
   "#": {},
   "!": {},
+  "Σ": {},
 };
 
 /* ======================================================
@@ -26,6 +27,7 @@ const mapaClasses = {
   "√": "op-sqrt",
   "#": "op-term",
   "!": "op-fat",
+  "Σ": "op-fat",
 };
 
 /* ======================================================
@@ -155,7 +157,8 @@ function descricaoOperador(op) {
         "^": "Potência: eleva um número a outro.",
         "√": "Raiz quadrada: calcula a raiz de um número.",
         "#": "Termial: soma todos os números de 1 até n",
-        "!": "Fatorial: multiplica todos os números de 1 até n."
+        "!": "Fatorial: multiplica todos os números de 1 até n.",
+        "Σ": "Somatorio: Some vários números seguindo uma regra.\nO termo (X) é a regra do que vai ser somado."
     };
     return descricoes[op] || "Descrição não disponível.";
 }
