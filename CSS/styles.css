@@ -129,18 +129,25 @@ button:hover {
 ====================================================== */
 
 #hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    z-index: 40;
 }
 
 .game-page {
-    height: 100dvh;
+    min-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    touch-action: none;
     background:
         radial-gradient(circle at 30% 40%, rgba(154, 50, 211, 0.12), transparent 60%),
         radial-gradient(circle at 70% 70%, rgba(0, 255, 200, 0.12), transparent 60%),
@@ -213,6 +220,8 @@ button:hover {
     align-items: center;
     text-align: center;
     padding: 20px;
+    padding-bottom: 120px;
+    padding-top: 100px;
 }
 
 /* Pergunta gigante */
@@ -231,19 +240,21 @@ button:hover {
 ========================= */
 
 .game-page #answer-area {
-    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 20px;
     display: flex;
     justify-content: center;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
+    background: linear-gradient(to top, #0a0a1a 80%, transparent);
+    z-index: 50;
 }
 
 .game-page #answerInput {
     width: 260px;
     padding: 16px;
     font-size: 1.6rem;
-    margin-left: 100%;
     text-align: center;
     border-radius: 40px;
     border: 2px solid rgba(0, 255, 200, 0.7);
@@ -255,7 +266,6 @@ button:hover {
 
 .game-page #answerInput:focus {
     box-shadow: 0 0 25px rgba(0, 255, 200, 0.6);
-    transform: scale(1.05);
 }
 
 /* ======================================================
