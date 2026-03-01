@@ -218,6 +218,9 @@ function handleCorrect() {
     generateQuestion();
     updateHUD();
     inputEl.textContent = "";
+    extrairOperadoresValidos(currentOperatorsUsed).forEach(op => {
+        desbloquearOperadorNoJogo(op);
+    });
 }
 
 // ===============================
@@ -240,6 +243,9 @@ function handleWrong() {
         inputEl.disabled = false;
         inputEl.focus();
     }, 1000);
+    extrairOperadoresValidos(currentOperatorsUsed).forEach(op => {
+        desbloquearOperadorNoJogo(op);
+    });
 }
 
 // ===============================
@@ -506,9 +512,6 @@ function generateQuestion() {
     }
 
     questionEl.innerHTML = displayExpr;
-    extrairOperadoresValidos(currentOperatorsUsed).forEach(op => {
-        desbloquearOperadorNoJogo(op);
-    });
 }
 
 // ===============================
