@@ -7,6 +7,7 @@ let difficulty = 1;
 let score = 0;
 let questionCount = 0;
 let currentAnswer = 0;
+let correctAnswers = 0;
 let freeze = false;
 let timerInterval = null;
 let currentOperatorsUsed = [];
@@ -19,6 +20,7 @@ const timerEl = document.getElementById("timer");
 const scoreEl = document.getElementById("scoreDisplay");
 const difficultyEl = document.getElementById("difficulty");
 const questionCountEl = document.getElementById("questionCount");
+const correctCountEl = document.getElementById("correctCount");
 const questionEl = document.getElementById("question");
 const answerEl = document.getElementById("answer-area");
 const inputEl = document.getElementById("answerInput");
@@ -62,12 +64,12 @@ const OPERATOR_COMBINATIONS = [
             { ops: ["-"], weight: 0 },
             { ops: ["+", "-"], weight: 0 },
             { ops: ["-", "+"], weight: 0 },
-            { ops: ["×"], weight: 10 },
-            { ops: ["/"], weight: 10 },
+            { ops: ["×"], weight: 20 },
+            { ops: ["/"], weight: 20 },
             { ops: ["×", "+"], weight: 10 },
-            { ops: ["+", "+", "+"], weight: 20 },
+            { ops: ["+", "+", "+"], weight: 10 },
             { ops: ["×", "-"], weight: 10 },
-            { ops: ["-", "×"], weight: 20 },
+            { ops: ["-", "×"], weight: 10 },
             { ops: ["/", "+"], weight: 10 },
             { ops: ["/", "-"], weight: 10 }
         ]
@@ -195,7 +197,10 @@ function checkAnswer() {
     } else {
         handleWrong();
     }
-
+    setTimeout(() => {
+        inputEl.classList.remove("input-correct");
+        inputEl.classList.remove("input-wrong");
+    }, 1000);
     inputEl.value = "";
 }
 
@@ -206,14 +211,13 @@ function checkAnswer() {
 function handleCorrect() {
     timeLeft += 10;
     addScore();
+    inputEl.classList.add("input-correct");
     questionCount++;
     difficulty++;
+    correctAnswers++;
     generateQuestion();
     updateHUD();
     inputEl.textContent = "";
-    extrairOperadoresValidos(currentOperatorsUsed).forEach(op => {
-        desbloquearOperadorNoJogo(op);
-    });
 }
 
 // ===============================
@@ -225,7 +229,7 @@ function handleWrong() {
     updateTimer();
     freeze = true;
     inputEl.disabled = true;
-
+    inputEl.classList.add("input-wrong");
     questionCount++;
     difficulty++;
     generateQuestion();
@@ -235,7 +239,7 @@ function handleWrong() {
         freeze = false;
         inputEl.disabled = false;
         inputEl.focus();
-    }, 3000);
+    }, 1000);
 }
 
 // ===============================
@@ -502,6 +506,9 @@ function generateQuestion() {
     }
 
     questionEl.innerHTML = displayExpr;
+    extrairOperadoresValidos(currentOperatorsUsed).forEach(op => {
+        desbloquearOperadorNoJogo(op);
+    });
 }
 
 // ===============================
@@ -529,7 +536,9 @@ function pickCombination(difficulty) {
         if (r < available[i].weight) return available[i];
         r -= available[i].weight;
     }
+    if(difficulty > 10){
 
+    }
     return available[0];
 }
 
@@ -553,6 +562,8 @@ function updateHUD() {
     updateTimer();
     scoreEl.textContent = `⭐ ${score}`;
     questionCountEl.textContent = `📊 ${questionCount}`;
+    correctCountEl.textContent = `✔️ ${correctAnswers}`;
+    atualizarDificuldade(difficulty);
 }
 
 // ===============================
@@ -638,4 +649,36 @@ function extrairOperadoresValidos(opsArray) {
         });
     });
     return operadoresValidos;
+}
+
+function atualizarDificuldade(nivel) {
+    const display = document.getElementById("difficultyDisplay");
+
+    // Remove classes antigas
+    display.classList.remove("easy", "medium", "hard", "insane");
+
+    if (nivel >= 0) {
+        display.textContent = "Dificuldade: Fácil";
+        display.classList.add("easy");
+    }
+
+    if (nivel >= 15) {
+        display.textContent = "Dificuldade: Médio";
+        display.classList.add("medium");
+    }
+
+    if (nivel >= 25) {
+        display.textContent = "Dificuldade: Difícil";
+        display.classList.add("hard");
+    }
+
+    if (nivel >= 40) {
+        display.textContent = "Dificuldade: Insano";
+        display.classList.add("insane");
+    }
+    
+    if (nivel >= 50) {
+        display.textContent = "Dificuldade: Mestre";
+        display.classList.add("mestre");
+    }
 }

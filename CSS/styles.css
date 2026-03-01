@@ -72,31 +72,14 @@ body:not(.game-page)::after {
 h1 {
     font-size: 3rem;
     color: white;
+    text-shadow:
+        0 0 10px rgb(155, 50, 211),
+        0 0 15px rgb(0, 255, 200);
     margin-bottom: 40px;
     font-weight: 700;
     letter-spacing: 2px;
     animation: glowPulse 4s ease-in-out infinite;
     ;
-}
-
-@keyframes glowPulse {
-    0% {
-        text-shadow:
-            0 0 10px rgb(155, 50, 211),
-            0 0 15px rgb(0, 255, 200);
-    }
-
-    50% {
-        text-shadow:
-            0 0 30px rgb(155, 50, 211),
-            0 0 45px rgb(0, 255, 200);
-    }
-
-    100% {
-        text-shadow:
-            0 0 10px rgb(155, 50, 211),
-            0 0 15px rgb(0, 255, 200);
-    }
 }
 
 .buttons-group {
@@ -146,7 +129,7 @@ button:hover:not(.operator-modal-content button) {
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-size: 500% 100%;
-        background-image: linear-gradient(45deg,
+        background-image: linear-gradient(90deg,
                 #ff0000,
                 #ff7f00,
                 #ffff00,
@@ -156,7 +139,8 @@ button:hover:not(.operator-modal-content button) {
                 #8a2be2,
                 #ff00ff,
                 #ff0000,
-                #ff7f00);
+                #ff7f00,
+                #ffff00);
         background-position: 0% 0%;
     }
 
@@ -164,7 +148,7 @@ button:hover:not(.operator-modal-content button) {
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-size: 500% 100%;
-        background-image: linear-gradient(45deg,
+        background-image: linear-gradient(90deg,
                 #ff0000,
                 #ff7f00,
                 #ffff00,
@@ -174,7 +158,8 @@ button:hover:not(.operator-modal-content button) {
                 #8a2be2,
                 #ff00ff,
                 #ff0000,
-                #ff7f00);
+                #ff7f00,
+                #ffff00);
         background-position: 100% 0%;
     }
 }
@@ -255,11 +240,21 @@ button:hover:not(.operator-modal-content button) {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    font-weight: 800;
-    font-size: 1.4rem;
+    font-weight: 700;
+    font-size: 1.2rem;
     animation: RainbowGrad 3s linear infinite;
     text-shadow:
         0 0 30px rgba(255, 215, 0, 0.8);
+    z-index: 10;
+}
+
+#correctCount {
+    top: 20px;
+    right: 20px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-shadow: 0 0 30px rgba(0, 255, 8, 0.8);
+    color: rgba(0, 255, 8, 0.8);
     z-index: 10;
 }
 
@@ -279,7 +274,7 @@ button:hover:not(.operator-modal-content button) {
 
 /* Pergunta gigante */
 #question {
-    font-size: 4.5rem;
+    font-size: 5.0rem;
     font-weight: 800;
     color: white;
     text-shadow:
@@ -338,7 +333,7 @@ button:hover:not(.operator-modal-content button) {
     /* Centro da tela adaptado abaixo do HUD */
     .center-area {
         position: absolute;
-        top: 15%;
+        top: 10%;
         left: 50%;
         transform: translateX(-50%);
         width: 90%;
@@ -359,6 +354,10 @@ button:hover:not(.operator-modal-content button) {
 
     #answerInput {
         width: 100%;
+    }
+
+    #question {
+        font-size: 2.0rem;
     }
 }
 
@@ -660,37 +659,175 @@ button:hover:not(.operator-modal-content button) {
 /* Sigma */
 
 #question {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .somatorio {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: "Times New Roman", serif;
-  color: white;
-  font-size: 1em;      /* herda do #question */
-  font-weight: bold;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Times New Roman", serif;
+    color: white;
+    font-size: 1em;
+    /* herda do #question */
+    font-weight: bold;
 }
 
 .limite {
-  font-size: 0.45em;
-  line-height: 1;
+    font-size: 0.45em;
+    line-height: 1;
 }
 
 .sigma-termo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .sigma {
-  font-size: 2.2em;
-  font-weight: 500;
+    font-size: 2.2em;
+    font-weight: 500;
 }
 
 .termo {
-  font-size: 1em;
+    font-size: 1em;
+}
+
+@media (max-width: 767px) {
+    #question {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .somatorio {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: "Times New Roman", serif;
+        color: white;
+        font-size: 1em;
+        /* herda do #question */
+        font-weight: bold;
+    }
+
+    .limite {
+        font-size: 0.75em;
+        line-height: 1;
+    }
+
+    .sigma-termo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .sigma {
+        font-size: 1.6em;
+        font-weight: 500;
+    }
+
+    .termo {
+        font-size: 0.75em;
+    }
+
+}
+
+/* Resposta correta */
+.input-correct {
+    border: 2px solid #3bff5c;
+    background-color: #1a9b00;
+    background: rgba(18, 106, 25, 0.95);
+    color: #4fff3b;
+    text-shadow: 0 0 10px #33ff00;
+    box-shadow: 0 0 10px #00ff1a;
+    animation: shake 0.3s linear;
+}
+
+/* Resposta errada */
+.input-wrong {
+    border: 2px solid #ff3b3b;
+    background-color: #9b0000;
+    background: rgba(106, 18, 18, 0.95);
+    color: #ff3b3b;
+    text-shadow: 0 0 10px #ff3b3b;
+    box-shadow: 0 0 10px #ff0000;
+    animation: wrongshake 0.3s linear;
+}
+
+/* Animação de erro */
+@keyframes wrongshake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateY(0);
+    }
+
+    25% {
+        transform: translateY(-5px);
+    }
+
+    50% {
+        transform: translateY(5px);
+    }
+
+    75% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.difficulty {
+    margin-top: 60px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+    display: flex;
+    justify-content: center;
+}
+
+/* Cores por dificuldade */
+.easy {
+    color: #00ff88;
+}
+
+.medium {
+    color: #ffd000;
+}
+
+.hard {
+    color: #ff3b3b;
+}
+
+.insane {
+    color: rgb(72, 72, 72)
+}
+
+.mestre {
+    animation: RainbowGrad 3s linear infinite;
 }
