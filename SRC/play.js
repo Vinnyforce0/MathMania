@@ -149,6 +149,13 @@ const OPERATOR_COMBINATIONS = [
             { ops: ["Σ"], weight: 100 }
         ]
     },
+    {
+        minDifficulty: 55,
+        combinations: [
+            { ops: ["Σ"], weight: 0 },
+            { ops: ["∏"], weight: 100 }
+        ]
+    },
 ];
 
 // ===============================
@@ -325,6 +332,52 @@ function renderSomatorio(inicio, fim, termo) {
     `;
 }
 
+function gerarProdutorio() {
+
+    const inicio = rand(1, 3);
+    const fim = rand(3, 5);
+
+    const termosPossiveis = ["X", "2X", "3X"];
+    const termo = termosPossiveis[rand(0, termosPossiveis.length - 1)];
+
+    let resultado = 1;
+
+    for (let x = inicio; x <= fim; x++) {
+
+        switch (termo) {
+            case "X":
+                resultado *= x;
+                break;
+
+            case "2X":
+                resultado *= (2 * x);
+                break;
+
+            case "3X":
+                resultado *= (3 * x);
+                break;
+        }
+
+    }
+
+    currentAnswer = resultado;
+
+    renderProdutorio(inicio, fim, termo);
+}
+
+function renderProdutorio(inicio, fim, termo) {
+    questionEl.innerHTML = `
+      <div class="somatorio">
+        <div class="limite">${fim}</div>
+        <div class="sigma-termo">
+          <span class="sigma">∏</span>
+          <span class="termo"> ${termo}</span>
+        </div>
+        <div class="limite">X = ${inicio}</div>
+      </div>
+    `;
+}
+
 function generateQuestion() {
 
     const combination = pickCombination(difficulty);
@@ -334,6 +387,9 @@ function generateQuestion() {
     // ======== SE FOR SOMATÓRIO ========
     if (ops.includes("Σ")) {
         gerarSomatorio();
+        return;
+    } else if (ops.includes("∏")) {
+        gerarProdutorio();
         return;
     }
 
@@ -539,7 +595,7 @@ function pickCombination(difficulty) {
         if (r < available[i].weight) return available[i];
         r -= available[i].weight;
     }
-    if(difficulty > 10){
+    if (difficulty > 10) {
 
     }
     return available[0];
@@ -638,13 +694,14 @@ const mapaClasses = {
     "#": "op-term",
     "!": "op-fat",
     "Σ": "op-sig",
+    "∏": "op-prod",
 };
 
 function extrairOperadoresValidos(opsArray) {
     const operadoresValidos = [];
     opsArray.forEach(op => {
         // Se for operador composto, separa pelos símbolos conhecidos
-        let chars = op.split(/(?=[+\-×\/^√#!Σ])/); // separa cada símbolo reconhecível
+        let chars = op.split(/(?=[+\-×\/^√#!Σ∏])/); // separa cada símbolo reconhecível
         chars.forEach(c => {
             if (mapaClasses[c] && !operadoresValidos.includes(c)) {
                 operadoresValidos.push(c);
@@ -679,7 +736,7 @@ function atualizarDificuldade(nivel) {
         display.textContent = "Dificuldade: Insano";
         display.classList.add("insane");
     }
-    
+
     if (nivel >= 50) {
         display.textContent = "Dificuldade: Mestre";
         display.classList.add("mestre");

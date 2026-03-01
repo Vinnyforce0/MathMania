@@ -12,6 +12,7 @@ const listaOperadores = {
   "#": {},
   "!": {},
   "Σ": {},
+  "∏": {},
 };
 
 /* ======================================================
@@ -28,6 +29,7 @@ const mapaClasses = {
   "#": "op-term",
   "!": "op-fat",
   "Σ": "op-sig",
+  "∏": "op-prod",
 };
 
 /* ======================================================
@@ -158,7 +160,8 @@ function descricaoOperador(op) {
         "√": "Raiz quadrada: calcula a raiz de um número.",
         "#": "Termial: soma todos os números de 1 até n",
         "!": "Fatorial: multiplica todos os números de 1 até n.",
-        "Σ": "Somatorio: Some vários números seguindo uma regra.\nO termo (X) é a regra do que vai ser somado."
+        "Σ": "Somatorio: Some vários números seguindo uma regra.\nO termo (X) é a regra do que vai ser somado.",
+        "∏": "Produtorio: Multiplique vários números seguindo uma regra.\nO termo (X) é a regra do que vai ser multiplicado."
     };
     return descricoes[op] || "Descrição não disponível.";
 }

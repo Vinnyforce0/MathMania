@@ -452,6 +452,7 @@ button:hover:not(.operator-modal-content button) {
 
 .index-page .card.unlocked {
     background: white;
+    font-family: "Times New Roman", serif;
     animation: boxGlow 4s ease-in-out infinite;
 }
 
@@ -540,9 +541,12 @@ button:hover:not(.operator-modal-content button) {
     color: #ffd700;
 }
 
-
 .op-sig {
-    color: #004b15;
+    color: #67093b;
+}
+
+.op-prod {
+    color: #2d0e3e;
 }
 
 /* ! */
