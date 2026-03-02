@@ -156,6 +156,13 @@ const OPERATOR_COMBINATIONS = [
             { ops: ["∏"], weight: 100 }
         ]
     },
+    {
+        minDifficulty: 60,
+        combinations: [
+            { ops: ["∏"], weight: 0 },
+            { ops: ["∫"], weight: 100 }
+        ]
+    },
 ];
 
 // ===============================
@@ -368,12 +375,55 @@ function gerarProdutorio() {
 function renderProdutorio(inicio, fim, termo) {
     questionEl.innerHTML = `
       <div class="somatorio">
-        <div class="limite">${fim}</div>
+        <div class="limite-p">${fim}</div>
         <div class="sigma-termo">
-          <span class="sigma">∏</span>
+          <span class="produtorio">∏</span>
           <span class="termo"> ${termo}</span>
         </div>
-        <div class="limite">X = ${inicio}</div>
+        <div class="limite-p">X = ${inicio}</div>
+      </div>
+    `;
+}
+
+function gerarIntegral() {
+
+    const inicio = rand(1, 4);
+    let fim = 0;
+
+    if(inicio % 2 === 0){
+        fim = (rand(1,3) * 2);
+    } else {
+        fim = (rand(1,3) * 2) + 3;
+    }
+
+    const termosPossiveis = ["X", "2X", "3X", "4X"];
+    const termo = termosPossiveis[rand(0, termosPossiveis.length - 1)];
+
+    let k = 1;
+
+    switch (termo) {
+        case "X": k = 1; break;
+        case "2X": k = 2; break;
+        case "3X": k = 3; break;
+        case "4X": k = 4; break;
+    }
+
+    const resultado = (k * (fim * fim - inicio * inicio)) / 2;
+
+    currentAnswer = resultado;
+
+    renderIntegral(inicio, fim, termo);
+}
+
+function renderIntegral(inicio, fim, termo) {
+    questionEl.innerHTML = `
+      <div class="somatorio">
+        <div class="limite-i">${fim}</div>
+        <div class="sigma-termo">
+          <span class="sigma">∫</span>
+          <span class="termo"> ${termo} DX</span>
+        </div>
+        <div class="limite-i">${inicio}</div>
       </div>
     `;
 }
@@ -390,6 +440,9 @@ function generateQuestion() {
         return;
     } else if (ops.includes("∏")) {
         gerarProdutorio();
+        return;
+    } else if (ops.includes("∫")) {
+        gerarIntegral();
         return;
     }
 
@@ -695,13 +748,14 @@ const mapaClasses = {
     "!": "op-fat",
     "Σ": "op-sig",
     "∏": "op-prod",
+    "∫": "op-inte",
 };
 
 function extrairOperadoresValidos(opsArray) {
     const operadoresValidos = [];
     opsArray.forEach(op => {
         // Se for operador composto, separa pelos símbolos conhecidos
-        let chars = op.split(/(?=[+\-×\/^√#!Σ∏])/); // separa cada símbolo reconhecível
+        let chars = op.split(/(?=[+\-×\/^√#!Σ∏∫])/); // separa cada símbolo reconhecível
         chars.forEach(c => {
             if (mapaClasses[c] && !operadoresValidos.includes(c)) {
                 operadoresValidos.push(c);
@@ -740,5 +794,10 @@ function atualizarDificuldade(nivel) {
     if (nivel >= 50) {
         display.textContent = "Dificuldade: Mestre";
         display.classList.add("mestre");
+    }
+    
+    if (nivel >= 60) {
+        display.textContent = "Dificuldade: GrandMestre";
+        display.classList.add("grandmestre");
     }
 }

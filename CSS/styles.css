@@ -164,6 +164,59 @@ button:hover:not(.operator-modal-content button) {
     }
 }
 
+@keyframes SuperFire {
+    0% {
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 500% 100%;
+        background-image: linear-gradient(90deg,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #ff0000,
+                #ff7f00,
+                #ffff00);
+        background-position: 0% 0%;
+        text-shadow:
+            0 0 10px #ff0000,
+            0 0 15px #ff7f00;
+    }
+    50% {
+        text-shadow:
+            0 0 10px #ffff00,
+            0 0 15px #ffff00;
+    }
+
+    100% {
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 500% 100%;
+        background-image: linear-gradient(90deg,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #ff0000,
+                #ff7f00,
+                #ffff00);
+        background-position: 100% 0%;
+        text-shadow:
+            0 0 10px #ff0000,
+            0 0 15px #ff7f00;
+    }
+}
+
 
 /* ======================================================
    GAME PAGE LAYOUT NOVO
@@ -452,7 +505,6 @@ button:hover:not(.operator-modal-content button) {
 
 .index-page .card.unlocked {
     background: white;
-    font-family: "Times New Roman", serif;
     animation: boxGlow 4s ease-in-out infinite;
 }
 
@@ -543,10 +595,18 @@ button:hover:not(.operator-modal-content button) {
 
 .op-sig {
     color: #67093b;
+    font-family: "Times New Roman", serif;
+
 }
 
 .op-prod {
     color: #2d0e3e;
+    font-family: "Times New Roman", serif;
+}
+
+.op-inte {
+    color: #101f62;
+    font-family: "Times New Roman", serif;
 }
 
 /* ! */
@@ -680,8 +740,25 @@ button:hover:not(.operator-modal-content button) {
 }
 
 .limite {
+    margin-right: 60%;
     font-size: 0.45em;
     line-height: 1;
+    width: 120%;
+}
+
+.limite-p {
+    margin-right: 50%;
+    font-size: 0.45em;
+    line-height: 1;
+    width: 120%;
+}
+
+.limite-i {
+    margin-right: 70%;
+    margin-bottom: 5%;
+    font-size: 0.45em;
+    line-height: 1;
+    width: 120%;
 }
 
 .sigma-termo {
@@ -692,6 +769,11 @@ button:hover:not(.operator-modal-content button) {
 
 .sigma {
     font-size: 2.2em;
+    font-weight: 500;
+}
+
+.produtorio {
+    font-size: 2em;
     font-weight: 500;
 }
 
@@ -718,7 +800,7 @@ button:hover:not(.operator-modal-content button) {
     }
 
     .limite {
-        font-size: 0.75em;
+        font-size: 0.5em;
         line-height: 1;
     }
 
@@ -730,6 +812,11 @@ button:hover:not(.operator-modal-content button) {
 
     .sigma {
         font-size: 1.6em;
+        font-weight: 500;
+    }
+
+    .produtorio {
+        font-size: 1.4em;
         font-weight: 500;
     }
 
@@ -787,22 +874,27 @@ button:hover:not(.operator-modal-content button) {
 @keyframes shake {
     0% {
         transform: translateY(0);
+        transform: rotate(0deg);
     }
 
     25% {
         transform: translateY(-5px);
+        transform: rotate(5deg);
     }
 
     50% {
         transform: translateY(5px);
+        transform: rotate(0deg);
     }
 
     75% {
         transform: translateY(-5px);
+        transform: rotate(-5deg);
     }
 
     100% {
         transform: translateY(0);
+        transform: rotate(0deg);
     }
 }
 
@@ -834,4 +926,8 @@ button:hover:not(.operator-modal-content button) {
 
 .mestre {
     animation: RainbowGrad 3s linear infinite;
+}
+
+.grandmestre {
+    animation: SuperFire 2s linear infinite;
 }

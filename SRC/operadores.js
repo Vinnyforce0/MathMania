@@ -13,6 +13,7 @@ const listaOperadores = {
   "!": {},
   "Σ": {},
   "∏": {},
+  "∫": {},
 };
 
 /* ======================================================
@@ -30,6 +31,7 @@ const mapaClasses = {
   "!": "op-fat",
   "Σ": "op-sig",
   "∏": "op-prod",
+  "∫": "op-inte",
 };
 
 /* ======================================================
@@ -161,7 +163,8 @@ function descricaoOperador(op) {
         "#": "Termial: soma todos os números de 1 até n",
         "!": "Fatorial: multiplica todos os números de 1 até n.",
         "Σ": "Somatorio: Some vários números seguindo uma regra.\nO termo (X) é a regra do que vai ser somado.",
-        "∏": "Produtorio: Multiplique vários números seguindo uma regra.\nO termo (X) é a regra do que vai ser multiplicado."
+        "∏": "Produtorio: Multiplique vários números seguindo uma regra.\nO termo (X) é a regra do que vai ser multiplicado.",
+        "∫": "Integral definida: calcula a área entre dois limites.\nPrimeiro encontre a primitiva F(x).\nDepois calcule F(b) - F(a).\nOs limites (a e b) definem onde começa e termina o cálculo."
     };
     return descricoes[op] || "Descrição não disponível.";
 }
