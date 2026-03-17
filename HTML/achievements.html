@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conquistas</title>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="../CSS/styles.css">
+    <link rel="stylesheet" href="../CSS/achievements.css">
+</head>
+
+<body class="achievements-page">
+    <div class="achievements-container">
+
+        <h1>Conquistas</h1>
+
+        <div id="achievementsList" class="achievements-grid"></div>
+
+        <br><button onclick="window.location.href='../index.html'" class="back-btn">
+            Voltar
+        </button>
+
+    </div>
+    <script src="../SRC/achievements.js" defer></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../service-worker.js', { scope: './' })
+                    .then(reg => console.log('Service Worker registrado!', reg))
+                    .catch(err => console.log('Falha no registro do SW', err));
+            });
+        }
+    </script>
+</body>
+
+</html>

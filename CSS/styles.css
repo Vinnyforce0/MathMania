@@ -26,7 +26,7 @@ sup{
    2️⃣ HOME / PÁGINAS NORMAIS
 ====================================================== */
 
-body:not(.game-page):not(.about-page) {
+body:not(.game-page):not(.about-page):not(.achievements-page){
     height: 100vh;
     width: 100vw;
     overflow: hidden;
@@ -42,7 +42,7 @@ body:not(.game-page):not(.about-page) {
 }
 
 /* Scanlines apenas fora do jogo */
-body:not(.game-page):not(.about-page)::after {
+body:not(.game-page):not(.about-page):not(.achievements-page)::after {
     content: '';
     position: fixed;
     inset: 0;
@@ -132,6 +132,10 @@ button:hover:not(.operator-modal-content button) {
 
 #optionsButton {
     color: rgba(0, 255, 200, 0.9);
+}
+
+#achievementsButton {
+    color: rgba(234, 255, 0, 0.9);
 }
 
 @keyframes RainbowGrad {
@@ -1317,6 +1321,7 @@ button:hover:not(.operator-modal-content button) {
     background-attachment: fixed;
     
 }
+
 
 #checkpointSelect {
   padding: 10px 15px;

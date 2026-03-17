@@ -1,7 +1,6 @@
 // ===============================
 // ESTADO DO JOGO
 // ===============================
-
 let timeLeft = 50;
 let difficulty = 1;
 let score = 0;
@@ -242,6 +241,7 @@ function handleCorrect() {
     extrairOperadoresValidos(currentOperatorsUsed).forEach(op => {
         desbloquearOperadorNoJogo(op);
     });
+    registrarOperacao(currentOperatorsUsed)
 }
 
 // ===============================
@@ -681,7 +681,7 @@ function updateHUD() {
     updateTimer();
     scoreEl.textContent = `⭐ ${score}`;
     questionCountEl.textContent = `📊 ${questionCount}`;
-    correctCountEl.textContent = `✔️ ${correctAnswers}`;
+    correctCountEl.textContent = `✔️ ${currentOperatorsUsed}`;
     atualizarDificuldade(difficulty);
 }
 
@@ -809,10 +809,236 @@ function atualizarDificuldade(nivel) {
     }
 }
 
-function atualizarProgresso(questaoAtual) {
-    let maior = parseInt(localStorage.getItem("maxCheckpoint")) || 0;
+function registrarOperacao(opsArray) {
 
-    if (questaoAtual > maior) {
-        localStorage.setItem("maxCheckpoint", questaoAtual);
+  opsArray.forEach(op => {
+
+    if (op.includes("+")) {
+      incrementar("somas");
     }
+
+    if (op.includes("-")) {
+      incrementar("subtracoes");
+    }
+
+    if (op.includes("×")) {
+      incrementar("multiplicacoes");
+    }
+
+    if (op.includes("/")) {
+      incrementar("divisoes");
+    }
+
+    if (op.includes("^")) {
+      incrementar("potencias");
+    }
+
+    if (op.includes("√")) {
+      incrementar("raizes");
+    }
+
+    if (op.includes("Σ")) {
+      incrementar("somatorios");
+    }
+
+    if (op.includes("∏")) {
+      incrementar("produtorios");
+    }
+
+    if (op.includes("∫")) {
+      incrementar("integrais");
+    }
+    incrementar("totalQuestoes")
+  });
+
 }
+
+function incrementar(tipo) {
+  let valor = parseInt(localStorage.getItem(tipo)) || 0;
+  valor++;
+
+  localStorage.setItem(tipo, valor);
+
+  verificarConquistas();
+}
+
+function verificarConquistas() {
+  let desbloqueadas = JSON.parse(localStorage.getItem("conquistas")) || [];
+
+  achievements.forEach(a => {
+    if (!desbloqueadas.includes(a.id) && a.requisito()) {
+      desbloqueadas.push(a.id);
+      localStorage.setItem("conquistas", JSON.stringify(desbloqueadas));
+
+      mostrarConquista(a);
+    }
+  });
+}
+
+function mostrarConquista(a) {
+  const div = document.createElement("div");
+  div.className = "achievement-popup";
+  div.innerText = "🏆 " + a.nome + " desbloqueado!";
+
+  document.body.appendChild(div);
+
+  setTimeout(() => div.remove(), 3000);
+}
+
+function atualizarProgresso(questaoAtual) {
+  let maior = parseInt(localStorage.getItem("maxCheckpoint")) || 0;
+
+  if (questaoAtual > maior) {
+    localStorage.setItem("maxCheckpoint", questaoAtual);
+  }
+}
+
+const achievements = [
+
+    // ===============================
+    // SOMA
+    // ===============================
+    {
+        id: "sum_1",
+        nome: "Prodígio da soma",
+        descricao: "Resolva 1 soma",
+        requisito: () => (parseInt(localStorage.getItem("somas")) || 0) >= 1
+    },
+    {
+        id: "sum_2",
+        nome: "Filho do Somatorio",
+        descricao: "Resolva 50 somas",
+        requisito: () => (parseInt(localStorage.getItem("somas")) || 0) >= 50
+    },
+    {
+        id: "sum_3",
+        nome: "Mestre da soma",
+        descricao: "Resolva 200 somas",
+        requisito: () => (parseInt(localStorage.getItem("somas")) || 0) >= 200
+    },
+    {
+        id: "sum_4",
+        nome: "Sun God ☀️",
+        descricao: "Resolva 1000 somas",
+        requisito: () => (parseInt(localStorage.getItem("somas")) || 0) >= 1000
+    },
+
+    // ===============================
+    // SUBTRAÇÃO
+    // ===============================
+    {
+        id: "sub_1",
+        nome: "Prodígio da subtração",
+        descricao: "Resolva 1 subtração",
+        requisito: () => (parseInt(localStorage.getItem("subtracoes")) || 0) >= 1
+    },
+    {
+        id: "sub_2",
+        nome: "Caçador de números",
+        descricao: "Resolva 50 subtrações",
+        requisito: () => (parseInt(localStorage.getItem("subtracoes")) || 0) >= 50
+    },
+    {
+        id: "sub_3",
+        nome: "Mestre do vazio",
+        descricao: "Resolva 200 subtrações",
+        requisito: () => (parseInt(localStorage.getItem("subtracoes")) || 0) >= 200
+    },
+    {
+        id: "sub_4",
+        nome: "Buraco Negro 🕳️",
+        descricao: "Resolva 1000 subtrações",
+        requisito: () => (parseInt(localStorage.getItem("subtracoes")) || 0) >= 1000
+    },
+
+    // ===============================
+    // MULTIPLICAÇÃO
+    // ===============================
+    {
+        id: "mul_1",
+        nome: "Prodígio da multiplicação",
+        descricao: "Resolva 1 multiplicação",
+        requisito: () => (parseInt(localStorage.getItem("multiplicacoes")) || 0) >= 1
+    },
+    {
+        id: "mul_2",
+        nome: "fabrica de numeros",
+        descricao: "Resolva 50 multiplicações",
+        requisito: () => (parseInt(localStorage.getItem("multiplicacoes")) || 0) >= 50
+    },
+    {
+        id: "mul_3",
+        nome: "Multi-disciplinado",
+        descricao: "Resolva 200 multiplicações",
+        requisito: () => (parseInt(localStorage.getItem("multiplicacoes")) || 0) >= 200
+    },
+    {
+        id: "mul_4",
+        nome: "Multi-Constelacional ✨",
+        descricao: "Resolva 1000 multiplicações",
+        requisito: () => (parseInt(localStorage.getItem("multiplicacoes")) || 0) >= 1000
+    },
+
+    // ===============================
+    // GERAL (QUESTÕES)
+    // ===============================
+    {
+        id: "questions_1",
+        nome: "Ótimo começo",
+        descricao: "Resolva 1 questão",
+        requisito: () => (parseInt(localStorage.getItem("totalQuestoes")) || 0) >= 1
+    },
+    {
+        id: "questions_2",
+        nome: "Em ritmo",
+        descricao: "Resolva 50 questões",
+        requisito: () => (parseInt(localStorage.getItem("totalQuestoes")) || 0) >= 50
+    },
+    {
+        id: "questions_3",
+        nome: "Mente afiada",
+        descricao: "Resolva 200 questões",
+        requisito: () => (parseInt(localStorage.getItem("totalQuestoes")) || 0) >= 200
+    },
+    {
+        id: "questions_4",
+        nome: "Cérebro de Boltsman 🧠🔥",
+        descricao: "Resolva 1000 questões",
+        requisito: () => (parseInt(localStorage.getItem("totalQuestoes")) || 0) >= 1000
+    },
+
+    // ===============================
+    // ESPECIAIS (operações avançadas)
+    // ===============================
+    {
+        id: "pow_1",
+        nome: "Prodigio em potencial",
+        descricao: "Resolva 1 potencia",
+        requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 1
+    },
+    {
+        id: "sqrt_1",
+        nome: "Prodigio raiz",
+        descricao: "Resolva 1 raiz",
+        requisito: () => (parseInt(localStorage.getItem("raizes")) || 0) >= 1
+    },
+    {
+        id: "sigma_1",
+        nome: "Prodigio grego",
+        descricao: "Resolva 1 somatório",
+        requisito: () => (parseInt(localStorage.getItem("somatorios")) || 0) >= 1
+    },
+    {
+        id: "prod_1",
+        nome: "multi-prodigio produtor",
+        descricao: "Resolva 1 produtório",
+        requisito: () => (parseInt(localStorage.getItem("produtorios")) || 0) >= 1
+    },
+    {
+        id: "int_1",
+        nome: "prodigio Integralista",
+        descricao: "Resolva 1 integral",
+        requisito: () => (parseInt(localStorage.getItem("integrais")) || 0) >= 1
+    }
+
+];

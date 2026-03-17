@@ -19,14 +19,31 @@
 
         <script>
             document.getElementById("resetOperators").addEventListener("click", () => {
-                // Remove operadores desbloqueados
-                localStorage.removeItem("operadores");
 
-                // Feedback pro usuário
+                // Lista de tudo que o jogo usa
+                const chaves = [
+                    "operadores",
+                    "somas",
+                    "subtracoes",
+                    "multiplicacoes",
+                    "divisoes",
+                    "potencias",
+                    "raizes",
+                    "somatorios",
+                    "produtorios",
+                    "integrais",
+                    "totalQuestoes",
+                    "conquistas",
+                    "maxCheckpoint",
+                    "checkpoint"
+                ];
+
+                // Remove tudo
+                chaves.forEach(chave => localStorage.removeItem(chave));
+
                 alert("Progresso do jogo resetado!");
 
-                // Recarrega a página atual ou volta para o índice
-                window.location.reload(); // ou window.location.href = 'indice.html';
+                window.location.reload();
             });
         </script>
 
