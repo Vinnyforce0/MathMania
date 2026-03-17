@@ -16,6 +16,7 @@ const ASSETS_TO_CACHE = [
   BASE_PATH + 'HTML/iniciar.html',
   BASE_PATH + 'HTML/indice.html',
   BASE_PATH + 'HTML/opcoes.html',
+  BASE_PATH + 'HTML/sobre.html',
   BASE_PATH + 'SRC/config.js',
   BASE_PATH + 'SRC/play.js',
   BASE_PATH + 'SRC/operadores.js',
