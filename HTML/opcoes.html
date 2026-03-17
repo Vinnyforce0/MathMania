@@ -12,7 +12,10 @@
 <body>
     <div class="container">
         <h1>Opções</h1>
-        <button id="resetOperators">Resetar Progresso</button><br>
+        <button id="resetOperators">Resetar Progresso</button><br><br>
+        <label for="checkpointSelect">Checkpoint:</label>
+
+        <select id="checkpointSelect"></select><br>
 
         <script>
             document.getElementById("resetOperators").addEventListener("click", () => {
@@ -25,6 +28,31 @@
                 // Recarrega a página atual ou volta para o índice
                 window.location.reload(); // ou window.location.href = 'indice.html';
             });
+        </script>
+
+        <script>
+            function carregarCheckpoints() {
+                const select = document.getElementById("checkpointSelect");
+                select.innerHTML = "";
+
+                let max = parseInt(localStorage.getItem("maxCheckpoint")) || 0;
+
+                // checkpoints fixos do jogo
+                const checkpoints = [0, 10, 20, 30, 40, 50, 60];
+
+                checkpoints.forEach(cp => {
+                    if (cp <= max) {
+                        let option = document.createElement("option");
+                        option.value = cp;
+                        option.textContent = cp === 0 ? "0" : cp;
+                        select.appendChild(option);
+                    }
+                });
+            }
+            document.getElementById("checkpointSelect").addEventListener("change", function () {
+                localStorage.setItem("checkpoint", this.value);
+            });
+            carregarCheckpoints();
         </script>
         <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">Voltar</button>
     </div>

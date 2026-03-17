@@ -5,12 +5,18 @@
 let timeLeft = 50;
 let difficulty = 1;
 let score = 0;
-let questionCount = 0;
+let questionCount = 1;
 let currentAnswer = 0;
 let correctAnswers = 0;
 let freeze = false;
 let timerInterval = null;
 let currentOperatorsUsed = [];
+
+let checkpoint = parseInt(localStorage.getItem("checkpoint")) || 0;
+if (checkpoint != 0) {
+    questionCount = checkpoint;
+    difficulty = checkpoint;
+}
 
 // ===============================
 // ELEMENTOS
@@ -216,6 +222,7 @@ function checkAnswer() {
         inputEl.classList.remove("input-wrong");
     }, 1000);
     inputEl.value = "";
+    atualizarProgresso(questionCount)
 }
 
 // ===============================
@@ -223,7 +230,7 @@ function checkAnswer() {
 // ===============================
 
 function handleCorrect() {
-    timeLeft += 10;
+    timeLeft += Math.floor(2.5 * (1 + Math.floor(Math.log2(questionCount))));
     addScore();
     inputEl.classList.add("input-correct");
     questionCount++;
@@ -390,10 +397,10 @@ function gerarIntegral() {
     const inicio = rand(1, 4);
     let fim = 0;
 
-    if(inicio % 2 === 0){
-        fim = (rand(1,3) * 2);
+    if (inicio % 2 === 0) {
+        fim = (rand(1, 3) * 2);
     } else {
-        fim = (rand(1,3) * 2) + 3;
+        fim = (rand(1, 3) * 2) + 3;
     }
 
     const termosPossiveis = ["X", "2X", "3X", "4X"];
@@ -795,9 +802,17 @@ function atualizarDificuldade(nivel) {
         display.textContent = "Dificuldade: Mestre";
         display.classList.add("mestre");
     }
-    
+
     if (nivel >= 60) {
         display.textContent = "Dificuldade: GrandMestre";
         display.classList.add("grandmestre");
+    }
+}
+
+function atualizarProgresso(questaoAtual) {
+    let maior = parseInt(localStorage.getItem("maxCheckpoint")) || 0;
+
+    if (questaoAtual > maior) {
+        localStorage.setItem("maxCheckpoint", questaoAtual);
     }
 }

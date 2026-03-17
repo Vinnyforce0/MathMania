@@ -17,7 +17,10 @@ body {
     min-height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+sup{
+    font-size: 2.5rem;
+    transform: translateY(-25px)
+}
 
 /* ======================================================
    2️⃣ HOME / PÁGINAS NORMAIS
@@ -83,7 +86,6 @@ h1 {
     -webkit-animation: glowPulse 4s ease-in-out infinite;
     will-change: transform;
     transform: translateZ(0);
-    ;
 }
 
 .buttons-group {
@@ -101,6 +103,7 @@ button {
     cursor: pointer;
     color: white;
     -webkit-background-clip: text;
+    background-clip: text;
     border: 2px solid currentColor;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -519,6 +522,11 @@ button:hover:not(.operator-modal-content button) {
     #question {
         font-size: 2.0rem;
     }
+
+    sup{
+    font-size: 1.3rem;
+    transform: translateY(-10px)
+}
 }
 
 /* ======================================================
@@ -1211,6 +1219,7 @@ button:hover:not(.operator-modal-content button) {
     cursor: pointer;
     color: white;
     -webkit-background-clip: text;
+    background-clip: text;
     border: 2px solid currentColor;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     z-index: 999;
@@ -1307,4 +1316,28 @@ button:hover:not(.operator-modal-content button) {
         #0a0a1a;
     background-attachment: fixed;
     
+}
+
+#checkpointSelect {
+  padding: 10px 15px;
+  border-radius: 12px;
+  background: #0a0a1a;
+  color: white;
+  border: 2px solid #00ffc8;
+  font-size: 1rem;
+}
+
+label{
+    font-size: 2rem;
+    color: white;
+    text-shadow:
+        0 0 10px rgb(155, 50, 211),
+        0 0 15px rgb(0, 255, 200);
+    margin-bottom: 40px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    animation: glowPulse 4s ease-in-out infinite;
+    -webkit-animation: glowPulse 4s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
 }
