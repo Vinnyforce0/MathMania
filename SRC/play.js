@@ -898,6 +898,7 @@ const achievements = [
     // ===============================
     // SOMA
     // ===============================
+
     {
         id: "sum_1",
         nome: "Prodígio da soma",
@@ -926,6 +927,7 @@ const achievements = [
     // ===============================
     // SUBTRAÇÃO
     // ===============================
+
     {
         id: "sub_1",
         nome: "Prodígio da subtração",
@@ -954,6 +956,7 @@ const achievements = [
     // ===============================
     // MULTIPLICAÇÃO
     // ===============================
+
     {
         id: "mul_1",
         nome: "Prodígio da multiplicação",
@@ -980,6 +983,90 @@ const achievements = [
     },
 
     // ===============================
+    // Divisao
+    // ===============================
+    
+    {
+        id: "div_1",
+        nome: "Prodigio da divisao",
+        descricao: "Resolva 1 divisao",
+        requisito: () => (parseInt(localStorage.getItem("divisoes")) || 0) >= 1
+    },
+    {
+        id: "div_2",
+        nome: "Divisor experiente",
+        descricao: "Resolva 50 divisoes",
+        requisito: () => (parseInt(localStorage.getItem("divisoes")) || 0) >= 50
+    },
+    {
+        id: "div_3",
+        nome: "Divisor de mares",
+        descricao: "Resolva 200 divisoes",
+        requisito: () => (parseInt(localStorage.getItem("divisoes")) || 0) >= 200
+    },
+    {
+        id: "div_4",
+        nome: "Divisor de 0",
+        descricao: "Resolva 1000 divisoes",
+        requisito: () => (parseInt(localStorage.getItem("divisoes")) || 0) >= 1000
+    },
+
+    // ===============================
+    // Potencia
+    // ===============================
+
+    {
+        id: "pow_1",
+        nome: "Prodigio em potencial",
+        descricao: "Resolva 1 potencia",
+        requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 1
+    },
+    {
+        id: "pow_2",
+        nome: "Potencial Desastre",
+        descricao: "Resolva 50 potencias",
+        requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 50
+    },
+    {
+        id: "pow_3",
+        nome: "Anti Logaritmo",
+        descricao: "Resolva 200 potencias",
+        requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 2000
+    },
+    {
+        id: "pow_4",
+        nome: "Exponencial Infinito",
+        descricao: "Resolva 1000 potencias",
+        requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 1000
+    },
+
+    {
+        id: "sqrt_1",
+        nome: "Prodigio raiz",
+        descricao: "Resolva 1 raiz",
+        requisito: () => (parseInt(localStorage.getItem("raizes")) || 0) >= 1
+    },
+    {
+        id: "sigma_1",
+        nome: "Prodigio grego",
+        descricao: "Resolva 1 somatório",
+        requisito: () => (parseInt(localStorage.getItem("somatorios")) || 0) >= 1
+    },
+    {
+        id: "prod_1",
+        nome: "multi-prodigio",
+        descricao: "Resolva 1 produtório",
+        requisito: () => (parseInt(localStorage.getItem("produtorios")) || 0) >= 1
+    },
+    {
+        id: "int_1",
+        nome: "prodigio Integralista",
+        descricao: "Resolva 1 integral",
+        requisito: () => (parseInt(localStorage.getItem("integrais")) || 0) >= 1
+    },
+
+    
+    // ===============================
     // GERAL (QUESTÕES)
     // ===============================
     {
@@ -1002,43 +1089,9 @@ const achievements = [
     },
     {
         id: "questions_4",
-        nome: "Cérebro de Boltsman 🧠🔥",
+        nome: "Cérebro de Boltsman 🧠",
         descricao: "Resolva 1000 questões",
         requisito: () => (parseInt(localStorage.getItem("totalQuestoes")) || 0) >= 1000
     },
-
-    // ===============================
-    // ESPECIAIS (operações avançadas)
-    // ===============================
-    {
-        id: "pow_1",
-        nome: "Prodigio em potencial",
-        descricao: "Resolva 1 potencia",
-        requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 1
-    },
-    {
-        id: "sqrt_1",
-        nome: "Prodigio raiz",
-        descricao: "Resolva 1 raiz",
-        requisito: () => (parseInt(localStorage.getItem("raizes")) || 0) >= 1
-    },
-    {
-        id: "sigma_1",
-        nome: "Prodigio grego",
-        descricao: "Resolva 1 somatório",
-        requisito: () => (parseInt(localStorage.getItem("somatorios")) || 0) >= 1
-    },
-    {
-        id: "prod_1",
-        nome: "multi-prodigio produtor",
-        descricao: "Resolva 1 produtório",
-        requisito: () => (parseInt(localStorage.getItem("produtorios")) || 0) >= 1
-    },
-    {
-        id: "int_1",
-        nome: "prodigio Integralista",
-        descricao: "Resolva 1 integral",
-        requisito: () => (parseInt(localStorage.getItem("integrais")) || 0) >= 1
-    }
 
 ];
