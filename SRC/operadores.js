@@ -90,7 +90,6 @@ function carregarOperadores() {
       }
 
       card.appendChild(span);
-
       card.addEventListener("click", () => mostrarInfoOperador(op));
     }
 
@@ -120,6 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarOperadores();
 });
 
+function iniciarTreino(operador) {
+  localStorage.setItem("trainingMode", operador);
+  window.location.href = "iniciar.html";
+}
 
 function mostrarInfoOperador(operador) {
     // Cria o modal de explicação
@@ -138,6 +141,14 @@ function mostrarInfoOperador(operador) {
     const description = document.createElement("p");
     description.textContent = descricaoOperador(operador);
 
+    // Botão de treino
+    const trainBtn = document.createElement("button");
+    trainBtn.textContent = "Treino";
+    trainBtn.classList.add("train-button");
+    trainBtn.addEventListener("click", () => {
+        iniciarTreino(operador);
+    });
+
     // Botão de fechar
     const closeBtn = document.createElement("button");
     closeBtn.textContent = "Fechar";
@@ -146,6 +157,7 @@ function mostrarInfoOperador(operador) {
     // Monta o modal
     content.appendChild(title);
     content.appendChild(description);
+    content.appendChild(trainBtn);
     content.appendChild(closeBtn);
     modal.appendChild(content);
     document.body.appendChild(modal);

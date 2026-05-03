@@ -10,6 +10,7 @@ let correctAnswers = 0;
 let freeze = false;
 let timerInterval = null;
 let currentOperatorsUsed = [];
+let trainingOperator = null;
 
 let checkpoint = parseInt(localStorage.getItem("checkpoint")) || 0;
 if (checkpoint != 0) {
@@ -175,6 +176,11 @@ const OPERATOR_COMBINATIONS = [
 // ===============================
 
 document.addEventListener("DOMContentLoaded", () => {
+    trainingOperator = localStorage.getItem("trainingMode");
+    if (trainingOperator) {
+        localStorage.removeItem("trainingMode");
+    }
+
     updateHUD();
     generateQuestion();
     startTimer();
@@ -185,6 +191,16 @@ document.addEventListener("DOMContentLoaded", () => {
             checkAnswer();
         }
     });
+
+    const invertSignButton = document.getElementById("invertSignButton");
+    const submitAnswerButton = document.getElementById("submitAnswerButton");
+
+    if (invertSignButton) {
+        invertSignButton.addEventListener("click", invertSign);
+    }
+    if (submitAnswerButton) {
+        submitAnswerButton.addEventListener("click", submitAnswer);
+    }
 });
 
 // ===============================
@@ -222,6 +238,37 @@ function checkAnswer() {
     }, 1000);
     inputEl.value = "";
     atualizarProgresso(questionCount)
+}
+
+function invertSign() {
+    const value = inputEl.value;
+    if (value.trim() === "") {
+        inputEl.value = "-";
+        inputEl.focus();
+        return;
+    }
+    if (value.startsWith("-")) {
+        inputEl.value = value.slice(1);
+    } else {
+        inputEl.value = "-" + value;
+    }
+    inputEl.focus();
+}
+
+function submitAnswer() {
+    if (!freeze) {
+        checkAnswer();
+    }
+}
+
+function updateAnswerBoxSpacing(ops) {
+    const answerArea = document.getElementById("answer-area");
+    if (!answerArea) return;
+    if (ops.includes("Σ") || ops.includes("∏") || ops.includes("∫")) {
+        answerArea.classList.add("expanded-answer-box");
+    } else {
+        answerArea.classList.remove("expanded-answer-box");
+    }
 }
 
 // ===============================
@@ -437,9 +484,15 @@ function renderIntegral(inicio, fim, termo) {
 
 function generateQuestion() {
 
-    const combination = pickCombination(difficulty);
-    const ops = combination.ops;
+    let ops;
+    if (trainingOperator) {
+        ops = [trainingOperator];
+    } else {
+        const combination = pickCombination(difficulty);
+        ops = combination.ops;
+    }
     currentOperatorsUsed = ops;
+    updateAnswerBoxSpacing(ops);
 
     // ======== SE FOR SOMATÓRIO ========
     if (ops.includes("Σ")) {
@@ -677,12 +730,24 @@ function updateTimer() {
     timerEl.textContent = `⏱ ${timeLeft}`;
 }
 
+function updateModeDisplay() {
+    const modeDisplay = document.getElementById("modeDisplay");
+    if (!modeDisplay) return;
+    if (trainingOperator) {
+        modeDisplay.textContent = `Modo Treino: ${trainingOperator}`;
+        difficultyDisplay.style.display = "none";
+    } else {
+        modeDisplay.textContent = "";
+    }
+}
+
 function updateHUD() {
     updateTimer();
     scoreEl.textContent = `⭐ ${score}`;
     questionCountEl.textContent = `📊 ${questionCount}`;
-    correctCountEl.textContent = `✔️ ${currentOperatorsUsed}`;
+    correctCountEl.textContent = `✔️ ${correctAnswers}`;
     atualizarDificuldade(difficulty);
+    updateModeDisplay();
 }
 
 // ===============================

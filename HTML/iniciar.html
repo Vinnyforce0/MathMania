@@ -22,6 +22,7 @@
     <div id="difficultyDisplay" class="difficulty">
         Dificuldade: Fácil
     </div>
+    <div id="modeDisplay" class="mode-display"></div>
     <!-- ÁREA CENTRAL -->
     <div class="center-area">
         <div id="question">Carregando...</div>
@@ -29,7 +30,13 @@
 
     <!-- ÁREA DE RESPOSTA -->
     <div id="answer-area">
-        <input type="text" id="answerInput" inputmode="numeric" placeholder="Resposta">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;">
+            <input type="text" id="answerInput" inputmode="numeric" placeholder="Resposta">
+            <div class="answer-actions" style="display:flex;gap:10px;width:100%;justify-content:center;">
+                <button type="button" id="invertSignButton">±</button>
+                <button type="button" id="submitAnswerButton">Enter</button>
+            </div>
+        </div>
     </div>
 
     <script src="../SRC/play.js" defer></script>

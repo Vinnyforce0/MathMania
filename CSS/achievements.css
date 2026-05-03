@@ -7,7 +7,7 @@ body {
 .achievements-page {
     overflow-y: auto;
     height: auto;
-    touch-action: none;
+    touch-action: auto;
 
     background:
         radial-gradient(circle at 30% 40%, rgba(154, 50, 211, 0.12), transparent 60%),
@@ -19,6 +19,12 @@ body {
 .achievements-container {
     padding: 15px 10px;
     text-align: center;
+}
+
+.achievements-counter {
+    color: white;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
 }
 
 .achievements-container h1 {
@@ -37,29 +43,29 @@ body {
     .achievements-grid {
         grid-template-columns: repeat(5, 1fr);
     }
+}
 
-    @media (max-width: 700px) {
-        .achievements-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
+@media (max-width: 700px) {
+    .achievements-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
 
-        @media (max-width: 550px) {
-            .achievements-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+@media (max-width: 550px) {
+    .achievements-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 
-            @media (max-width: 400px) {
-                .achievements-grid {
-                    grid-template-columns: repeat(2, 1fr);
-                }
+@media (max-width: 400px) {
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
-                @media (max-width: 300px) {
-                    .achievements-grid {
-                        grid-template-columns: repeat(1, 1fr);
-                    }
-                }
-            }
-        }
+@media (max-width: 300px) {
+    .achievements-grid {
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 

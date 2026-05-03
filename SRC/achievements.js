@@ -136,7 +136,7 @@ const achievements = [
         id: "pow_3",
         nome: "Anti Logaritmo",
         descricao: "Resolva 200 potencias",
-        requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 2000
+        requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 200
     },
     {
         id: "pow_4",
@@ -145,35 +145,127 @@ const achievements = [
         requisito: () => (parseInt(localStorage.getItem("potencias")) || 0) >= 1000
     },
 
+    // ===============================
+    // Raiz
+    // ===============================
+
     {
         id: "sqrt_1",
-        nome: "Prodigio raiz",
+        nome: "Prodígio raiz",
         descricao: "Resolva 1 raiz",
         requisito: () => (parseInt(localStorage.getItem("raizes")) || 0) >= 1
     },
     {
+        id: "sqrt_2",
+        nome: "Radical Determinado",
+        descricao: "Resolva 50 raízes",
+        requisito: () => (parseInt(localStorage.getItem("raizes")) || 0) >= 50
+    },
+    {
+        id: "sqrt_3",
+        nome: "Mestre dos Radicais",
+        descricao: "Resolva 200 raízes",
+        requisito: () => (parseInt(localStorage.getItem("raizes")) || 0) >= 200
+    },
+    {
+        id: "sqrt_4",
+        nome: "Raiz de Tudo",
+        descricao: "Resolva 1000 raízes",
+        requisito: () => (parseInt(localStorage.getItem("raizes")) || 0) >= 1000
+    },
+
+    // ===============================
+    // Somatorio
+    // ===============================
+
+    {
         id: "sigma_1",
-        nome: "Prodigio grego",
+        nome: "Prodígio grego",
         descricao: "Resolva 1 somatório",
         requisito: () => (parseInt(localStorage.getItem("somatorios")) || 0) >= 1
     },
     {
+        id: "sigma_2",
+        nome: "Soma Grega",
+        descricao: "Resolva 50 somatórios",
+        requisito: () => (parseInt(localStorage.getItem("somatorios")) || 0) >= 50
+    },
+    {
+        id: "sigma_3",
+        nome: "Oráculo dos Somatórios",
+        descricao: "Resolva 200 somatórios",
+        requisito: () => (parseInt(localStorage.getItem("somatorios")) || 0) >= 200
+    },
+    {
+        id: "sigma_4",
+        nome: "Arquimedes",
+        descricao: "Resolva 1000 somatórios",
+        requisito: () => (parseInt(localStorage.getItem("somatorios")) || 0) >= 1000
+    },
+
+    // ===============================
+    // produtorio
+    // ===============================
+
+    {
         id: "prod_1",
-        nome: "multi-prodigio",
+        nome: "Multi-prodigio",
         descricao: "Resolva 1 produtório",
         requisito: () => (parseInt(localStorage.getItem("produtorios")) || 0) >= 1
     },
     {
+        id: "prod_2",
+        nome: "Fatorador",
+        descricao: "Resolva 50 produtórios",
+        requisito: () => (parseInt(localStorage.getItem("produtorios")) || 0) >= 50
+    },
+    {
+        id: "prod_3",
+        nome: "Produto Infinito",
+        descricao: "Resolva 200 produtórios",
+        requisito: () => (parseInt(localStorage.getItem("produtorios")) || 0) >= 200
+    },
+    {
+        id: "prod_4",
+        nome: "Multiplicador Supremo",
+        descricao: "Resolva 1000 produtórios",
+        requisito: () => (parseInt(localStorage.getItem("produtorios")) || 0) >= 1000
+    },
+
+    // ===============================
+    // integral definida
+    // ===============================
+
+    {
         id: "int_1",
-        nome: "prodigio Integralista",
+        nome: "Prodígio Integralista",
         descricao: "Resolva 1 integral",
         requisito: () => (parseInt(localStorage.getItem("integrais")) || 0) >= 1
+    },
+    {
+        id: "int_2",
+        nome: "Integralista Aprendiz",
+        descricao: "Resolva 50 integrais",
+        requisito: () => (parseInt(localStorage.getItem("integrais")) || 0) >= 50
+    },
+    {
+        id: "int_3",
+        nome: "Teorema Fundamental",
+        descricao: "Resolva 200 integrais",
+        requisito: () => (parseInt(localStorage.getItem("integrais")) || 0) >= 200
+    },
+    {
+        id: "int_4",
+        nome: "Mestre das Infinitas Áreas",
+        descricao: "Resolva 1000 integrais",
+        requisito: () => (parseInt(localStorage.getItem("integrais")) || 0) >= 1000
     },
 
     
     // ===============================
     // GERAL (QUESTÕES)
     // ===============================
+
     {
         id: "questions_1",
         nome: "Ótimo começo",
@@ -198,6 +290,18 @@ const achievements = [
         descricao: "Resolva 1000 questões",
         requisito: () => (parseInt(localStorage.getItem("totalQuestoes")) || 0) >= 1000
     },
+    {
+        id: "questions_5",
+        nome: "Hiperfantasioso",
+        descricao: "Resolva 2500 questões",
+        requisito: () => (parseInt(localStorage.getItem("totalQuestoes")) || 0) >= 2500
+    },
+    {
+        id: "questions_6",
+        nome: "Alergico a Grama",
+        descricao: "Resolva 10000 questões",
+        requisito: () => (parseInt(localStorage.getItem("totalQuestoes")) || 0) >= 10000
+    },
 
 ];
 
@@ -205,6 +309,7 @@ const achievements = [
 document.addEventListener("DOMContentLoaded", () => {
     verificarConquistas();
     renderizarConquistas();
+    atualizarContador();
 });
 
 function verificarConquistas() {
@@ -247,4 +352,20 @@ function renderizarConquistas() {
 
         container.appendChild(card);
     });
+    atualizarContador();
+}
+
+function atualizarContador() {
+    const counter = document.getElementById("achievementsCounter");
+    if (!counter) return;
+    const desbloqueadas = JSON.parse(localStorage.getItem("conquistas")) || [];
+    counter.textContent = `Conquistas desbloqueadas: ${desbloqueadas.length} / ${achievements.length}`;
+}
+
+function mostrarConquista(a) {
+    const div = document.createElement("div");
+    div.className = "achievement-popup";
+    div.innerText = `🏆 ${a.nome} desbloqueado!`;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
 }
