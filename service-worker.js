@@ -24,6 +24,7 @@ const ASSETS_TO_CACHE = [
   BASE_PATH + 'SRC/operadores.js',
   BASE_PATH + 'SRC/achievements.js',
   BASE_PATH + 'IMAGES/floor.jpg',
+  BASE_PATH + 'IMAGES/MathMania_Icon.png',
   BASE_PATH + 'IMAGES/sky.jpg',
   BASE_PATH + 'IMAGES/laser.png'
 ];

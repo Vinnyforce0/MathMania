@@ -310,6 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
     verificarConquistas();
     renderizarConquistas();
     atualizarContador();
+    initScrollHandle();
 });
 
 function verificarConquistas() {
@@ -368,4 +369,78 @@ function mostrarConquista(a) {
     div.innerText = `🏆 ${a.nome} desbloqueado!`;
     document.body.appendChild(div);
     setTimeout(() => div.remove(), 3000);
+}
+
+/* Scroll handle (bolinha) - cria um handle que segue o scroll e permite arrastar para rolar */
+function initScrollHandle() {
+    const handle = document.createElement('div');
+    handle.id = 'scrollHandle';
+    handle.className = 'scroll-handle';
+    document.body.appendChild(handle);
+
+    let dragging = false;
+    let startY = 0;
+    let startScroll = 0;
+
+    function updateHandlePos() {
+        const docHeight = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+        const ratio = docHeight === 0 ? 0 : window.scrollY / docHeight;
+        const maxTop = Math.max(window.innerHeight - handle.offsetHeight - 40, 0);
+        const top = 20 + ratio * maxTop;
+        handle.style.top = `${top}px`;
+    }
+
+    window.addEventListener('scroll', updateHandlePos, { passive: true });
+    window.addEventListener('resize', updateHandlePos);
+
+    // Mouse events
+    handle.addEventListener('mousedown', (e) => {
+        dragging = true;
+        startY = e.clientY;
+        startScroll = window.scrollY;
+        handle.style.cursor = 'grabbing';
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        const dy = e.clientY - startY;
+        const docHeight = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+        const maxTop = Math.max(window.innerHeight - handle.offsetHeight - 40, 0);
+        const ratio = maxTop === 0 ? 0 : dy / maxTop;
+        const newScroll = Math.min(Math.max(0, startScroll + ratio * docHeight), docHeight);
+        window.scrollTo({ top: newScroll, behavior: 'auto' });
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (dragging) {
+            dragging = false;
+            handle.style.cursor = 'grab';
+        }
+    });
+
+    // Touch events
+    handle.addEventListener('touchstart', (e) => {
+        dragging = true;
+        startY = e.touches[0].clientY;
+        startScroll = window.scrollY;
+    }, { passive: false });
+
+    handle.addEventListener('touchmove', (e) => {
+        if (!dragging) return;
+        const dy = e.touches[0].clientY - startY;
+        const docHeight = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+        const maxTop = Math.max(window.innerHeight - handle.offsetHeight - 40, 0);
+        const ratio = maxTop === 0 ? 0 : dy / maxTop;
+        const newScroll = Math.min(Math.max(0, startScroll + ratio * docHeight), docHeight);
+        window.scrollTo(0, newScroll);
+        e.preventDefault();
+    }, { passive: false });
+
+    handle.addEventListener('touchend', () => {
+        dragging = false;
+    });
+
+    // Inicializa posição
+    setTimeout(updateHandlePos, 50);
 }

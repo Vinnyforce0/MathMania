@@ -296,7 +296,7 @@ function handleCorrect() {
 // ===============================
 
 function handleWrong() {
-    timeLeft -= 10;
+    timeLeft -= 10 + Math.floor(Math.log(timeLeft) * 3);
     updateTimer();
     freeze = true;
     inputEl.disabled = true;
@@ -477,7 +477,7 @@ function renderIntegral(inicio, fim, termo) {
           <span class="sigma">∫</span>
           <span class="termo"> ${termo} DX</span>
         </div>
-        <div class="limite-i">${inicio}</div>
+        <div class="limite-i-inf">${inicio}</div>
       </div>
     `;
 }
