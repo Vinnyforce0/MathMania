@@ -10,12 +10,13 @@
     <link rel="apple-touch-icon" href="IMAGES/MathMania_Icon.png">
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="CSS/styles.css">
+    <script src="SRC/config.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div id="appVersion" style="position: fixed; bottom: 10px; right: 10px; color: #fff;">
-            Versão: 2.0.2
+            Versão: <span id="versionNumber"></span>
         </div>
         <h1>MathMania</h1>
         <div class="buttons-group">
@@ -33,6 +34,9 @@
     </div>
 
     <script>
+        // Exibe a versão do app
+        document.getElementById('versionNumber').textContent = APP_VERSION;
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistration().then(reg => {
                 if (reg) {
