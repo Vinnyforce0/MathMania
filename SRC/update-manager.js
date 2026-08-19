@@ -107,7 +107,6 @@ class UpdateManager {
    */
   async performUpdate(newVersion) {
     try {
-      this.updateVersionInStorage(newVersion);
       await this.updateServiceWorker();
       return true;
     } catch (error) {

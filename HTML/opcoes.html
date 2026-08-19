@@ -7,6 +7,8 @@
     <title>Opções</title>
     <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../CSS/styles.css">
+    <link rel="icon" href="../IMAGES/MathMania_Icon.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../IMAGES/MathMania_Icon.png">
     <style>
         .update-info {
             margin: 20px 0;
@@ -138,7 +140,7 @@
             
             // Carrega a versão atual
             function loadCurrentVersion() {
-                const version = localStorage.getItem('appVersion') || APP_VERSION;
+                const version = APP_VERSION;
                 document.getElementById('versionDisplay').textContent = `Versão: ${version}`;
                 return version;
             }
@@ -159,7 +161,7 @@
                     } else if (result.currentVersion) {
                         const statusDiv = document.getElementById('updateStatus');
                         statusDiv.className = 'update-status success';
-                        statusDiv.textContent = `✓ Você está na versão mais recente (${result.currentVersion})`;
+                        statusDiv.textContent = `✓ Você está na versão mais recente (${result.remoteVersion})`;
                     }
                 } catch (error) {
                     console.error('Erro ao verificar atualizações:', error);
@@ -176,12 +178,12 @@
                 button.textContent = 'Verificando...';
 
                 try {
-                    const currentVersion = localStorage.getItem('appVersion') || APP_VERSION;
+                    const currentVersion = APP_VERSION;
                     const result = await updateManager.checkForUpdates(currentVersion);
 
                     if (!result.hasUpdate) {
                         statusDiv.className = 'update-status success';
-                        statusDiv.textContent = `✓ Você já está na versão mais recente (${result.currentVersion})`;
+                        statusDiv.textContent = `✓ Você já está na versão mais recente (${result.remoteVersion})`;
                         button.textContent = 'Atualizar Site';
                         button.disabled = false;
                         return;
