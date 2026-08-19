@@ -3,97 +3,314 @@
 // Importa a versão do config.js
 importScripts('./SRC/config.js');
 
-// Detecta localhost/Live Server (/) ou GitHub Pages (/Raycasting/)
-const isDev = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
+// Detecta localhost/Live Server (/) ou GitHub Pages (/MathMania/)
+const isDev =
+  self.location.hostname === 'localhost' ||
+  self.location.hostname === '127.0.0.1';
+
 const BASE_PATH = isDev ? '/' : '/MathMania/';
+
 const CACHE_PREFIX = 'mathmania-';
 const CACHE_NAME = CACHE_PREFIX + 'v' + APP_VERSION;
+
 const ASSETS_TO_CACHE = [
   BASE_PATH,
   BASE_PATH + 'index.html',
   BASE_PATH + 'manifest.json',
+
   BASE_PATH + 'CSS/styles.css',
   BASE_PATH + 'CSS/achievements.css',
+
   BASE_PATH + 'HTML/iniciar.html',
   BASE_PATH + 'HTML/indice.html',
   BASE_PATH + 'HTML/opcoes.html',
   BASE_PATH + 'HTML/sobre.html',
   BASE_PATH + 'HTML/achievements.html',
+
   BASE_PATH + 'SRC/config.js',
   BASE_PATH + 'SRC/play.js',
   BASE_PATH + 'SRC/operadores.js',
   BASE_PATH + 'SRC/achievements.js',
-  BASE_PATH + 'IMAGES/floor.jpg',
+
   BASE_PATH + 'IMAGES/MathMania_Icon.png',
   BASE_PATH + 'IMAGES/sky.jpg',
-  BASE_PATH + 'IMAGES/laser.png'
 ];
 
-// Evento de instalação - faz cache de todos os arquivos
+
+// ======================================================
+// INSTALAÇÃO
+// ======================================================
+
 self.addEventListener('install', event => {
-  console.log('Service worker instalado - iniciando cache');
+
+  console.log(
+    'Service Worker instalado - iniciando cache:',
+    CACHE_NAME
+  );
+
   event.waitUntil(
+
     caches.open(CACHE_NAME)
+
       .then(cache => {
-        console.log('Cache aberto, adicionando arquivos');
+
+        console.log(
+          'Cache aberto, adicionando arquivos'
+        );
+
         return cache.addAll(ASSETS_TO_CACHE);
+
       })
-      .then(() => self.skipWaiting()) // ativa imediatamente
+
+      .then(() => {
+
+        console.log(
+          'Arquivos armazenados com sucesso'
+        );
+
+        // Ativa imediatamente
+        return self.skipWaiting();
+
+      })
+
   );
+
 });
 
-// Evento de ativação - limpa caches antigos
+
+// ======================================================
+// ATIVAÇÃO
+// ======================================================
+
 self.addEventListener('activate', event => {
-  console.log('Service worker ativado');
+
+  console.log(
+    'Service Worker ativado:',
+    CACHE_NAME
+  );
 
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames
-          .filter(cacheName =>
-            cacheName.startsWith(CACHE_PREFIX) &&
-            cacheName !== CACHE_NAME
-          )
-          .map(cacheName => {
-            console.log('Deletando cache antigo:', cacheName);
-            return caches.delete(cacheName);
-          })
-      );
-    }).then(() => self.clients.claim())
+
+    caches.keys()
+
+      .then(cacheNames => {
+
+        return Promise.all(
+
+          cacheNames
+
+            .filter(cacheName =>
+
+              cacheName.startsWith(CACHE_PREFIX) &&
+              cacheName !== CACHE_NAME
+
+            )
+
+            .map(cacheName => {
+
+              console.log(
+                'Deletando cache antigo:',
+                cacheName
+              );
+
+              return caches.delete(cacheName);
+
+            })
+
+        );
+
+      })
+
+      .then(() => {
+
+        console.log(
+          'Caches antigos removidos'
+        );
+
+        return self.clients.claim();
+
+      })
+
   );
+
 });
 
-// Intercepta requisições (fetch) - estratégia cache-first
+
+// ======================================================
+// MENSAGENS RECEBIDAS DAS PÁGINAS
+// ======================================================
+
+self.addEventListener('message', event => {
+
+  if (!event.data) {
+    return;
+  }
+
+
+  // ----------------------------------------------------
+  // ATIVAR NOVA VERSÃO
+  // ----------------------------------------------------
+
+  if (event.data.type === 'SKIP_WAITING') {
+
+    console.log(
+      'Solicitação para ativar novo Service Worker'
+    );
+
+    self.skipWaiting();
+
+    return;
+  }
+
+
+  // ----------------------------------------------------
+  // LIMPAR CACHE MANUALMENTE
+  // ----------------------------------------------------
+
+  if (event.data.type === 'CLEAR_CACHE') {
+
+    console.log(
+      'Solicitação para limpar cache manualmente'
+    );
+
+    event.waitUntil(
+
+      caches.keys()
+
+        .then(cacheNames => {
+
+          return Promise.all(
+
+            cacheNames
+
+              .filter(cacheName =>
+                cacheName.startsWith(CACHE_PREFIX)
+              )
+
+              .map(cacheName => {
+
+                console.log(
+                  'Deletando cache:',
+                  cacheName
+                );
+
+                return caches.delete(cacheName);
+
+              })
+
+          );
+
+        })
+
+        .then(() => {
+
+          console.log(
+            'Cache limpo com sucesso'
+          );
+
+
+          // Responde para a página que solicitou
+          if (event.ports && event.ports[0]) {
+
+            event.ports[0].postMessage({
+
+              type: 'CACHE_CLEARED'
+
+            });
+
+          }
+
+        })
+
+    );
+
+  }
+
+});
+
+
+// ======================================================
+// FETCH
+// ======================================================
+
 self.addEventListener('fetch', event => {
+
   event.respondWith(
+
     caches.match(event.request)
+
       .then(response => {
-        // Se encontrou no cache, retorna
+
+        // ------------------------------------------------
+        // CACHE
+        // ------------------------------------------------
+
         if (response) {
+
           return response;
+
         }
-        
-        // Senão, tenta buscar da rede
+
+
+        // ------------------------------------------------
+        // REDE
+        // ------------------------------------------------
+
         return fetch(event.request)
+
           .then(response => {
-            // Se a requisição foi bem-sucedida, adiciona ao cache
-            if (!response || response.status !== 200) {
+
+            // Só armazena respostas válidas
+            if (
+              !response ||
+              response.status !== 200
+            ) {
+
               return response;
+
             }
-            
-            const responseToCache = response.clone();
+
+
+            const responseToCache =
+              response.clone();
+
+
             caches.open(CACHE_NAME)
+
               .then(cache => {
-                cache.put(event.request, responseToCache);
+
+                cache.put(
+                  event.request,
+                  responseToCache
+                );
+
               });
-            
+
+
             return response;
+
           })
+
+
+          // ------------------------------------------------
+          // OFFLINE
+          // ------------------------------------------------
+
           .catch(() => {
-            // Se falhar na rede, retorna um fallback (se houver)
-            console.log('Offline:', event.request.url);
-            return caches.match(BASE_PATH + 'index.html');
+
+            console.log(
+              'Offline:',
+              event.request.url
+            );
+
+            return caches.match(
+              BASE_PATH + 'index.html'
+            );
+
           });
+
       })
+
   );
+
 });

@@ -4,12 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
     <title>Opções</title>
 
     <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../CSS/styles.css">
+
     <link rel="icon" href="../IMAGES/MathMania_Icon.png" sizes="192x192">
+
     <link rel="apple-touch-icon" href="../IMAGES/MathMania_Icon.png">
+
 
     <style>
         .update-info {
@@ -60,13 +64,17 @@
             border: 2px solid #f3f3f3;
             border-top: 2px solid #3498db;
             border-radius: 50%;
+
             width: 16px;
             height: 16px;
+
             animation: spin 1s linear infinite;
+
             display: inline-block;
         }
 
         @keyframes spin {
+
             0% {
                 transform: rotate(0deg);
             }
@@ -74,9 +82,12 @@
             100% {
                 transform: rotate(360deg);
             }
+
         }
     </style>
+
 </head>
+
 
 <body>
 
@@ -84,23 +95,42 @@
 
         <h1>Opções</h1>
 
-        <!-- RESETAR PROGRESSO -->
-        <button id="resetOperators">Resetar Progresso</button>
-        <br><br>      
 
+        <!-- ================================================= -->
+        <!-- RESETAR PROGRESSO -->
+        <!-- ================================================= -->
+
+        <button id="resetOperators">
+            Resetar Progresso
+        </button>
+
+        <br><br>
+
+
+        <!-- ================================================= -->
         <!-- CHECKPOINT -->
-        <label for="checkpointSelect">Checkpoint:</label>
+        <!-- ================================================= -->
+
+        <label for="checkpointSelect">
+            Checkpoint:
+        </label>
 
         <select id="checkpointSelect"></select>
 
         <br>
 
 
+        <!-- ================================================= -->
         <!-- CONFIGURAÇÕES -->
+        <!-- ================================================= -->
+
         <script src="../SRC/config.js"></script>
 
 
+        <!-- ================================================= -->
         <!-- RESETAR PROGRESSO -->
+        <!-- ================================================= -->
+
         <script>
 
             document
@@ -109,6 +139,7 @@
 
                     // Lista de tudo que o jogo usa
                     const chaves = [
+
                         "operadores",
                         "somas",
                         "subtracoes",
@@ -123,14 +154,20 @@
                         "conquistas",
                         "maxCheckpoint",
                         "checkpoint"
+
                     ];
+
 
                     // Remove tudo
                     chaves.forEach(chave =>
                         localStorage.removeItem(chave)
                     );
 
-                    alert("Progresso do jogo resetado!");
+
+                    alert(
+                        "Progresso do jogo resetado!"
+                    );
+
 
                     window.location.reload();
 
@@ -139,23 +176,34 @@
         </script>
 
 
+        <!-- ================================================= -->
         <!-- CHECKPOINTS -->
+        <!-- ================================================= -->
+
         <script>
 
             function carregarCheckpoints() {
 
                 const select =
-                    document.getElementById("checkpointSelect");
+                    document.getElementById(
+                        "checkpointSelect"
+                    );
+
 
                 select.innerHTML = "";
 
+
                 let max =
                     parseInt(
-                        localStorage.getItem("maxCheckpoint")
+                        localStorage.getItem(
+                            "maxCheckpoint"
+                        )
                     ) || 0;
+
 
                 // Checkpoints fixos do jogo
                 const checkpoints = [
+
                     0,
                     10,
                     20,
@@ -168,19 +216,28 @@
                     90,
                     100,
                     110
+
                 ];
+
 
                 checkpoints.forEach(cp => {
 
                     if (cp <= max) {
 
                         let option =
-                            document.createElement("option");
+                            document.createElement(
+                                "option"
+                            );
+
 
                         option.value = cp;
 
+
                         option.textContent =
-                            cp === 0 ? "0" : cp;
+                            cp === 0
+                                ? "0"
+                                : cp;
+
 
                         select.appendChild(option);
 
@@ -193,23 +250,48 @@
 
             document
                 .getElementById("checkpointSelect")
-                .addEventListener("change", function () {
+                .addEventListener(
+                    "change",
+                    function () {
 
-                    localStorage.setItem(
-                        "checkpoint",
-                        this.value
-                    );
+                        localStorage.setItem(
+                            "checkpoint",
+                            this.value
+                        );
 
-                });
+                    }
+                );
 
 
             carregarCheckpoints();
 
         </script>
 
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistration().then(reg => {
+                    if (reg) {
+                        reg.update(); // força buscar a versão mais recente do SW
+                        console.log("Tentando atualizar o Service Worker...");
+                    }
+                });
+            }
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('service-worker.js', { scope: './' })
+                        .then(reg => console.log('Service Worker registrado!', reg))
+                        .catch(err => console.log('Falha no registro do SW', err));
+                });
+            }
+        </script>
+        <!-- ================================================= -->
         <!-- VOLTAR -->
+        <!-- ================================================= -->
+
         <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">
+
             Voltar
+
         </button>
 
     </div>
