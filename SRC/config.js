@@ -2,7 +2,7 @@
 // CONFIGURAÇÃO GLOBAL
 // =======================
 
-const APP_VERSION = "2.0.4"; // Atualize esta versão a cada mudança significativa
+const APP_VERSION = "2.0.5"; // Atualize esta versão a cada mudança significativa
 
 // URL do repositório GitHub (configure com o seu repositório)
 const GITHUB_REPO_URL = "https://github.com/vinnyforce0/MathMania";

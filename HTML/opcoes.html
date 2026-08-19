@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Opções</title>
+
     <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="../CSS/styles.css">
     <link rel="icon" href="../IMAGES/MathMania_Icon.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../IMAGES/MathMania_Icon.png">
+
     <style>
         .update-info {
             margin: 20px 0;
@@ -17,36 +19,43 @@
             border-radius: 5px;
             font-size: 0.9em;
         }
+
         .version-text {
             color: #666;
             font-size: 0.85em;
             margin-top: 5px;
         }
+
         .update-status {
             margin-top: 10px;
             padding: 10px;
             border-radius: 3px;
             display: none;
         }
+
         .update-status.success {
             background-color: #d4edda;
             color: #155724;
             display: block;
         }
+
         .update-status.error {
             background-color: #f8d7da;
             color: #721c24;
             display: block;
         }
+
         .update-status.info {
             background-color: #d1ecf1;
             color: #0c5460;
             display: block;
         }
+
         .loading {
             display: inline-block;
             margin-left: 10px;
         }
+
         .spinner {
             border: 2px solid #f3f3f3;
             border-top: 2px solid #3498db;
@@ -56,173 +65,155 @@
             animation: spin 1s linear infinite;
             display: inline-block;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 
 <body>
+
     <div class="container">
+
         <h1>Opções</h1>
-        <button id="resetOperators">Resetar Progresso</button><br><br>
-        <button id="updateButton">Atualizar Site</button><br><br>
-        <div class="update-info">
-            <span id="versionDisplay">Versão: carregando...</span>
-            <div class="version-text" id="updateCheckInfo"></div>
-            <div id="updateStatus" class="update-status"></div>
-        </div><br>
+
+        <!-- RESETAR PROGRESSO -->
+        <button id="resetOperators">Resetar Progresso</button>
+        <br><br>      
+
+        <!-- CHECKPOINT -->
         <label for="checkpointSelect">Checkpoint:</label>
 
-        <select id="checkpointSelect"></select><br>
+        <select id="checkpointSelect"></select>
 
+        <br>
+
+
+        <!-- CONFIGURAÇÕES -->
         <script src="../SRC/config.js"></script>
-        <script src="../SRC/update-manager.js"></script>
 
+
+        <!-- RESETAR PROGRESSO -->
         <script>
-            document.getElementById("resetOperators").addEventListener("click", () => {
 
-                // Lista de tudo que o jogo usa
-                const chaves = [
-                    "operadores",
-                    "somas",
-                    "subtracoes",
-                    "multiplicacoes",
-                    "divisoes",
-                    "potencias",
-                    "raizes",
-                    "somatorios",
-                    "produtorios",
-                    "integrais",
-                    "totalQuestoes",
-                    "conquistas",
-                    "maxCheckpoint",
-                    "checkpoint"
-                ];
+            document
+                .getElementById("resetOperators")
+                .addEventListener("click", () => {
 
-                // Remove tudo
-                chaves.forEach(chave => localStorage.removeItem(chave));
+                    // Lista de tudo que o jogo usa
+                    const chaves = [
+                        "operadores",
+                        "somas",
+                        "subtracoes",
+                        "multiplicacoes",
+                        "divisoes",
+                        "potencias",
+                        "raizes",
+                        "somatorios",
+                        "produtorios",
+                        "integrais",
+                        "totalQuestoes",
+                        "conquistas",
+                        "maxCheckpoint",
+                        "checkpoint"
+                    ];
 
-                alert("Progresso do jogo resetado!");
-
-                window.location.reload();
-            });
-        </script>
-
-        <script>
-            function carregarCheckpoints() {
-                const select = document.getElementById("checkpointSelect");
-                select.innerHTML = "";
-
-                let max = parseInt(localStorage.getItem("maxCheckpoint")) || 0;
-
-                // checkpoints fixos do jogo
-                const checkpoints = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110];
-
-                checkpoints.forEach(cp => {
-                    if (cp <= max) {
-                        let option = document.createElement("option");
-                        option.value = cp;
-                        option.textContent = cp === 0 ? "0" : cp;
-                        select.appendChild(option);
-                    }
-                });
-            }
-            document.getElementById("checkpointSelect").addEventListener("change", function () {
-                localStorage.setItem("checkpoint", this.value);
-            });
-            carregarCheckpoints();
-        </script>
-
-        <script>
-            // ========== GERENCIAMENTO DE ATUALIZAÇÕES ==========
-            
-            // Carrega a versão atual
-            function loadCurrentVersion() {
-                const version = APP_VERSION;
-                document.getElementById('versionDisplay').textContent = `Versão: ${version}`;
-                return version;
-            }
-
-            // Inicializa o gerenciador de atualizações
-            const updateManager = new UpdateManager(GITHUB_REPO_URL, GITHUB_BRANCH);
-
-            // Verifica se há atualizações ao carregar a página
-            async function checkUpdatesOnLoad() {
-                const currentVersion = loadCurrentVersion();
-                try {
-                    const result = await updateManager.checkForUpdates(currentVersion);
-                    if (result.hasUpdate) {
-                        const statusDiv = document.getElementById('updateStatus');
-                        statusDiv.className = 'update-status info';
-                        statusDiv.textContent = `✓ Atualização disponível! Nova versão: ${result.remoteVersion}`;
-                        document.getElementById('updateCheckInfo').textContent = `Clique em "Atualizar Site" para instalar a versão ${result.remoteVersion}`;
-                    } else if (result.currentVersion) {
-                        const statusDiv = document.getElementById('updateStatus');
-                        statusDiv.className = 'update-status success';
-                        statusDiv.textContent = `✓ Você está na versão mais recente (${result.remoteVersion})`;
-                    }
-                } catch (error) {
-                    console.error('Erro ao verificar atualizações:', error);
-                }
-            }
-
-            // Botão de atualizar
-            document.getElementById('updateButton').addEventListener('click', async function() {
-                const button = this;
-                const statusDiv = document.getElementById('updateStatus');
-                
-                // Desabilita o botão e mostra loading
-                button.disabled = true;
-                button.textContent = 'Verificando...';
-
-                try {
-                    const currentVersion = APP_VERSION;
-                    const result = await updateManager.checkForUpdates(currentVersion);
-
-                    if (!result.hasUpdate) {
-                        statusDiv.className = 'update-status success';
-                        statusDiv.textContent = `✓ Você já está na versão mais recente (${result.remoteVersion})`;
-                        button.textContent = 'Atualizar Site';
-                        button.disabled = false;
-                        return;
-                    }
-
-                    // Confirma a atualização
-                    const confirmed = confirm(
-                        `Atualização disponível!\\n\\nVersão atual: ${result.currentVersion}\\nNova versão: ${result.remoteVersion}\\n\\nDeseja atualizar agora?`
+                    // Remove tudo
+                    chaves.forEach(chave =>
+                        localStorage.removeItem(chave)
                     );
 
-                    if (confirmed) {
-                        button.textContent = 'Atualizando...';
-                        statusDiv.className = 'update-status info';
-                        statusDiv.textContent = 'Atualizando... Por favor, aguarde...';
-                        
-                        await updateManager.performUpdate(result.remoteVersion);
-                        
-                        // Este código não será executado pois a página recarrega
-                        // Mas deixamos aqui por completude
-                        statusDiv.className = 'update-status success';
-                        statusDiv.textContent = `✓ Atualizado com sucesso para versão ${result.remoteVersion}!`;
-                    } else {
-                        button.textContent = 'Atualizar Site';
-                        button.disabled = false;
-                    }
-                } catch (error) {
-                    console.error('Erro durante atualização:', error);
-                    statusDiv.className = 'update-status error';
-                    statusDiv.textContent = `✗ Erro: ${error.message}`;
-                    button.textContent = 'Atualizar Site';
-                    button.disabled = false;
-                }
-            });
+                    alert("Progresso do jogo resetado!");
 
-            // Verifica atualizações ao carregar a página
-            window.addEventListener('load', checkUpdatesOnLoad);
+                    window.location.reload();
+
+                });
+
         </script>
-        <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">Voltar</button>
+
+
+        <!-- CHECKPOINTS -->
+        <script>
+
+            function carregarCheckpoints() {
+
+                const select =
+                    document.getElementById("checkpointSelect");
+
+                select.innerHTML = "";
+
+                let max =
+                    parseInt(
+                        localStorage.getItem("maxCheckpoint")
+                    ) || 0;
+
+                // Checkpoints fixos do jogo
+                const checkpoints = [
+                    0,
+                    10,
+                    20,
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    90,
+                    100,
+                    110
+                ];
+
+                checkpoints.forEach(cp => {
+
+                    if (cp <= max) {
+
+                        let option =
+                            document.createElement("option");
+
+                        option.value = cp;
+
+                        option.textContent =
+                            cp === 0 ? "0" : cp;
+
+                        select.appendChild(option);
+
+                    }
+
+                });
+
+            }
+
+
+            document
+                .getElementById("checkpointSelect")
+                .addEventListener("change", function () {
+
+                    localStorage.setItem(
+                        "checkpoint",
+                        this.value
+                    );
+
+                });
+
+
+            carregarCheckpoints();
+
+        </script>
+
+        <!-- VOLTAR -->
+        <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">
+            Voltar
+        </button>
+
     </div>
+
 </body>
 
 </html>

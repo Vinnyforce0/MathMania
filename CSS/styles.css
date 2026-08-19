@@ -142,18 +142,22 @@ button:hover:not(.operator-modal-content button) {
 
 #startButton {
     color: rgba(255, 20, 147, 0.9);
+    font-size: 3rem;
 }
 
 #indexButton {
     color: rgba(154, 50, 211, 0.9);
+    font-size: 3rem;
 }
 
 #optionsButton {
     color: rgba(0, 255, 200, 0.9);
+    font-size: 3rem;
 }
 
-#achievementsButton {
+#achievementsButton{
     color: rgba(234, 255, 0, 0.9);
+    font-size: 3rem;
 }
 
 @keyframes RainbowGrad {
