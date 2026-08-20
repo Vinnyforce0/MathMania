@@ -12,6 +12,7 @@
 </head>
 
 <body class="index-page">
+    <div id="binaryRain"></div>
     <h1>Índice de Operadores</h1>
 
     <div class="collection-progress" style="color: white;">
@@ -38,6 +39,50 @@
             });
         }
     </script>
+    <script type="module">
+            import { animate, stagger, splitText } from '../anime.esm.js';
+            const binaryRain = document.getElementById('binaryRain');
+
+            function createBinary() {
+
+                const number = document.createElement('span');
+
+                // 0 ou 1
+                number.textContent = Math.random() > 0.5 ? '1' : '0';
+
+                // Posição horizontal aleatória
+                number.style.left = `${Math.random() * 100}%`;
+
+                // Tamanho aleatório
+                number.style.fontSize = `${14 + Math.random() * 20}px`;
+
+                binaryRain.appendChild(number);
+
+                setInterval(() => {
+                    number.textContent = number.textContent === '0' ? '1' : '0';
+                }, 100 + Math.random() * 500);
+
+                animate(number, {
+                    translateY: window.innerHeight + 100,
+
+                    opacity: [
+                        { to: 0, duration: 0 },
+                        { to: 0.5, duration: 300 },
+                        { to: 0.5, duration: 1500 },
+                        { to: 0, duration: 500 }
+                    ],
+
+                    duration: 3000 + Math.random() * 2000,
+                    ease: 'linear',
+
+                    onComplete: () => {
+                        number.remove();
+                    }
+                });
+            }
+
+            setInterval(createBinary, 150);
+        </script>
 </body>
 
 </html>

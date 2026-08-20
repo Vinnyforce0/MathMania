@@ -304,6 +304,15 @@ const achievements = [
     },
     {
         id: "questions_7",
+        nome: "Meio Caminho Andado",
+        descricao: "Consiga metade das conquistas",
+        requisito: () => {
+            const conquistas = JSON.parse(localStorage.getItem("conquistas")) || [];
+        return conquistas.length >= parseInt(parseInt(achievements.length) / 2);
+    }
+    },
+    {
+        id: "questions_8",
         nome: "Calcular = Respirar",
         descricao: "Consiga todas as conquistas",
         requisito: () => {

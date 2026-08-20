@@ -23,6 +23,39 @@ sup {
     transform: translateY(-25px)
 }
 
+#binaryRain {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#binaryRain span {
+    position: absolute;
+    top: -50px;
+
+    color: #00ffc8;
+    font-family: monospace;
+    font-size: 20px;
+    font-weight: bold;
+
+    text-shadow:
+        0 0 5px #00ffc8,
+        0 0 15px #00ffc8;
+
+    opacity: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 5;
+}
+
+
+
 /* ======================================================
    2️⃣ HOME / PÁGINAS NORMAIS
 ====================================================== */

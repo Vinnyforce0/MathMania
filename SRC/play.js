@@ -2,6 +2,8 @@
 // ===============================
 // ESTADO DO JOGO
 // ===============================
+
+
 let timeLeft = 50;
 let difficulty = 1;
 let score = 0;
@@ -31,6 +33,7 @@ const correctCountEl = document.getElementById("correctCount");
 const questionEl = document.getElementById("question");
 const answerEl = document.getElementById("answer-area");
 const inputEl = document.getElementById("answerInput");
+const enterEl = document.getElementById('submitAnswerButton');
 
 // ===============================
 // COMBINAÇÕES DE OPERADORES POR DIFICULDADE
@@ -297,7 +300,23 @@ function handleCorrect() {
 // ===============================
 
 function handleWrong() {
-    timeLeft -= 10 + Math.floor(Math.log(timeLeft) * 3);
+    if(timeLeft <= 1000 & timeLeft >=700){
+        timeLeft -= 500 + parseInt(timeLeft/10)
+    }
+    if(timeLeft < 700 & timeLeft >=400){
+        timeLeft -= 100 + parseInt(timeLeft/10)
+    }
+    if(timeLeft < 400 & timeLeft >=100){
+        timeLeft -= 50 + parseInt(timeLeft/10)
+    }
+    if(timeLeft < 100 & timeLeft >=0){
+        timeLeft -= 10 + parseInt(timeLeft/10)
+    }   
+    if(timeLeft <=0){
+        enterEl.disabled = true;
+        window.location.href = '../index.html';
+    }
+
     updateTimer();
     freeze = true;
     inputEl.disabled = true;
@@ -958,6 +977,7 @@ function atualizarProgresso(questaoAtual) {
     localStorage.setItem("maxCheckpoint", questaoAtual);
   }
 }
+
 
 const achievements = [
 

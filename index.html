@@ -14,13 +14,101 @@
 </head>
 
 <body>
+    <div id="binaryRain"></div>
+
     <div class="container">
         <div id="appVersion" style="position: fixed; bottom: 10px; right: 10px; color: #fff;">
             Versão: <span id="versionNumber"></span>
         </div>
         <h1>MathMania</h1>
+        <script type="module">
+            import { animate, stagger, splitText } from './anime.esm.js';
+
+            const { chars } = splitText('h1', { words: false, chars: true });
+
+            animate(chars, {
+                translateY: [
+                    { to: -40, duration: 500, ease: 'outExpo' },
+                    { to: 0, duration: 700, ease: 'outBounce' }
+                ],
+                scale: [
+                    { to: 2, duration: 400 },
+                    { to: 1, duration: 500 }
+                ],
+                delay: stagger(120),
+                loop: false
+            });
+
+            animate(chars, {
+                scale: [
+                    { to: 1.25, duration: 400 },
+                    { to: 1, duration: 500 }
+                ],
+                delay: stagger(120),
+                loop: true
+            });
+
+            const buttons = document.querySelectorAll(
+                '.buttons-group button'
+            );
+
+            // Entrada dos botões
+            animate(buttons, {
+                opacity: [0, 1],
+                scale: [0.7, 1],
+                y: [30, 0],
+                delay: stagger(200),
+                duration: 600,
+                ease: 'outBack'
+            });
+
+            const binaryRain = document.getElementById('binaryRain');
+
+            function createBinary() {
+
+                const number = document.createElement('span');
+
+                // 0 ou 1
+                number.textContent = Math.random() > 0.5 ? '1' : '0';
+
+                // Posição horizontal aleatória
+                number.style.left = `${Math.random() * 100}%`;
+
+                // Tamanho aleatório
+                number.style.fontSize = `${14 + Math.random() * 20}px`;
+
+                binaryRain.appendChild(number);
+
+                setInterval(() => {
+                    number.textContent = number.textContent === '0' ? '1' : '0';
+                }, 100 + Math.random() * 500);
+
+                animate(number, {
+                    translateY: window.innerHeight + 100,
+
+                    opacity: [
+                        { to: 0, duration: 0 },
+                        { to: 0.5, duration: 300 },
+                        { to: 0.5, duration: 1500 },
+                        { to: 0, duration: 500 }
+                    ],
+
+                    duration: 3000 + Math.random() * 2000,
+                    ease: 'linear',
+
+                    onComplete: () => {
+                        number.remove();
+                    }
+                });
+            }
+
+            setInterval(createBinary, 150);
+
+
+
+        </script>
         <div class="buttons-group">
-            <button id="startButton" onclick="window.location.href='HTML/iniciar.html'">►</button>
+            <button id="startButton" onclick="window.location.href='HTML/iniciar.html'">Start</button>
             <button id="indexButton" onclick="window.location.href='HTML/indice.html'">📗</button>
             <button id="optionsButton" onclick="window.location.href='HTML/opcoes.html'">⚙️</button>
             <button id="achievementsButton" onclick="window.location.href='HTML/achievements.html'">🏆</button>
