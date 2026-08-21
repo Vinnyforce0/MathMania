@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Execução</title>
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="../CSS/styles.css">
+    <link rel="stylesheet" href="../CSS/boss.css">
+    <link rel="stylesheet" href="../CSS/achievements.css">
+    <link rel="icon" href="../IMAGES/MathMania_Icon.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../IMAGES/MathMania_Icon.png">
+</head>
+
+<body class="game-page">
+    <!-- BOSS FIGHT -->
+<div id="bossFight">
+    <div id="bossRedFlash"></div>
+    <div id="bossScanlines"></div>
+
+    <div id="bossGlitch">
+        <img id="bossSkull" src="../IMAGES/boss.skull.svg" alt="">
+    </div>
+
+    <div id="bossText"></div>
+</div>
+    <div id="binaryRain"></div>
+    <!-- HUD - superior -->
+    <div id="hud">
+        <div id="scoreDisplay">⭐ 0</div>
+    </div>
+    <div id="timer">⏱ 60</div>
+    <div id="modeDisplay" class="mode-display"></div>
+    <!-- ÁREA CENTRAL -->
+    <div class="center-area">
+        <div id="question">Carregando...</div>
+    </div>
+
+    <!-- ÁREA DE RESPOSTA -->
+    <div id="answer-area">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;">
+            <input type="text" id="answerInput" inputmode="numeric" placeholder="Resposta">
+            <div class="answer-actions" style="display:flex;gap:10px;width:100%;justify-content:center;">
+                <button type="button" id="invertSignButton">±</button>
+                <button type="button" id="submitAnswerButton">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../SRC/BF.js" defer></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../service-worker.js', { scope: './' })
+                    .then(reg => console.log('Service Worker registrado!', reg))
+                    .catch(err => console.log('Falha no registro do SW', err));
+            });
+        }
+    </script>
+    <script type="module">
+        import { animate, stagger, splitText } from '../anime.esm.js';
+        const binaryRain = document.getElementById('binaryRain');
+
+        function createBinary() {
+
+            const number = document.createElement('span');
+
+            // 0 ou 1
+            number.textContent = Math.random() > 0.5 ? '1' : '0';
+
+            // Posição horizontal aleatória
+            number.style.left = `${Math.random() * 100}%`;
+
+            // Tamanho aleatório
+            number.style.fontSize = `${14 + Math.random() * 20}px`;
+
+            binaryRain.appendChild(number);
+
+            setInterval(() => {
+                number.textContent = number.textContent === '0' ? '1' : '0';
+            }, 100 + Math.random() * 500);
+
+            animate(number, {
+                translateY: window.innerHeight + 100,
+
+                opacity: [
+                    { to: 0, duration: 0 },
+                    { to: 0.5, duration: 300 },
+                    { to: 0.5, duration: 1500 },
+                    { to: 0, duration: 500 }
+                ],
+
+                duration: 3000 + Math.random() * 2000,
+                ease: 'linear',
+
+                onComplete: () => {
+                    number.remove();
+                }
+            });
+        }
+
+        setInterval(createBinary, 150);
+
+        const enterbotao = document.getElementById('submitAnswerButton');
+        const enterbox = document.getElementById('answerInput');
+
+        function animateQuestion() {
+            animate(questionEl, {
+                opacity: [0, 1],
+                scale: [0, 1],
+                translateY: [0, 0],
+                duration: 500,
+                ease: "outBack"
+            });
+        }
+
+        enterbotao.addEventListener("click", () => {
+            animateQuestion();
+        });
+
+        enterbox.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                animateQuestion();
+            }
+        });
+    </script>
+</body>
+
+</html>

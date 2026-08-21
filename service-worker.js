@@ -17,8 +17,12 @@ const ASSETS_TO_CACHE = [
   BASE_PATH,
   BASE_PATH + 'index.html',
   BASE_PATH + 'manifest.json',
+  BASE_PATH + 'package-lock.json',
+  BASE_PATH + 'package.json',
+  BASE_PATH + 'anime.esm.js',
 
   BASE_PATH + 'CSS/styles.css',
+  BASE_PATH + 'CSS/boss.css',
   BASE_PATH + 'CSS/achievements.css',
 
   BASE_PATH + 'HTML/iniciar.html',
@@ -26,14 +30,17 @@ const ASSETS_TO_CACHE = [
   BASE_PATH + 'HTML/opcoes.html',
   BASE_PATH + 'HTML/sobre.html',
   BASE_PATH + 'HTML/achievements.html',
+  BASE_PATH + 'HTML/Bossfight.html',
+  BASE_PATH + 'HTML/escolha.html',
 
   BASE_PATH + 'SRC/config.js',
   BASE_PATH + 'SRC/play.js',
+  BASE_PATH + 'SRC/BF.js',
   BASE_PATH + 'SRC/operadores.js',
   BASE_PATH + 'SRC/achievements.js',
-  BASE_PATH + 'SRC/anime.esm.js',
 
   BASE_PATH + 'IMAGES/MathMania_Icon.png',
+  BASE_PATH + 'IMAGES/boss.skull.svg',
   BASE_PATH + 'IMAGES/sky.jpg',];
 
 

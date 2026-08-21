@@ -108,7 +108,18 @@
 
         </script>
         <div class="buttons-group">
-            <button id="startButton" onclick="window.location.href='HTML/iniciar.html'">Start</button>
+            <button id="startButton" onclick="wherego()">Start</button>
+            <script>
+                function wherego() {
+                    let maior = parseInt(localStorage.getItem("maxCheckpoint")) || 0;
+                    if (maior > 50) {
+                        window.location.href = 'HTML/escolha.html'
+                    }
+                    else{
+                        window.location.href='HTML/iniciar.html'
+                    }
+                }
+            </script>
             <button id="indexButton" onclick="window.location.href='HTML/indice.html'">📗</button>
             <button id="optionsButton" onclick="window.location.href='HTML/opcoes.html'">⚙️</button>
             <button id="achievementsButton" onclick="window.location.href='HTML/achievements.html'">🏆</button>

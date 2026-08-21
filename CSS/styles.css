@@ -447,6 +447,7 @@ button:hover:not(.operator-modal-content button) {
     z-index: 10;
 }
 
+
 #questionCount {
     top: 20px;
     right: 20px;
@@ -1088,10 +1089,11 @@ button:hover:not(.operator-modal-content button) {
 }
 
 .limite-i {
-    margin-right: 70%;
+    margin-right: 60%;
     margin-bottom: 5%;
+    margin-top: 10%;
     font-size: 0.45em;
-    line-height: 1;
+    line-height: 0;
     width: 120%;
 }
 

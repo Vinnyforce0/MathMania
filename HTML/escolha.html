@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <title>Opções</title>
+
+    <link rel="manifest" href="../manifest.json">
+    <link rel="stylesheet" href="../CSS/styles.css">
+
+    <link rel="icon" href="../IMAGES/MathMania_Icon.png" sizes="192x192">
+
+    <link rel="apple-touch-icon" href="../IMAGES/MathMania_Icon.png">
+    <style>
+        #StartgameNM{
+            color: lightblue;
+        }
+        #StartgameBF{
+            color: red;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="binaryRain"></div>
+    <div class="container">
+
+        <h1>Modos de Jogo</h1>
+
+
+        <!-- ================================================= -->
+        <!-- RESETAR PROGRESSO -->
+        <!-- ================================================= -->
+
+        <button id="StartgameNM" onClick="window.location.href='iniciar.html'">
+            Default
+        </button>
+
+        <br><br>
+
+
+        <!-- ================================================= -->
+        <!-- CHECKPOINT -->
+        <!-- ================================================= -->
+
+        <button id="StartgameBF" onClick="window.location.href='Bossfight.html'">
+            Boss Fight<br>Em Manutencao
+        </button>
+
+        <br><br>
+
+        <script type="module">
+            import { animate, stagger, splitText } from '../anime.esm.js';
+            const binaryRain = document.getElementById('binaryRain');
+
+            function createBinary() {
+
+                const number = document.createElement('span');
+
+                // 0 ou 1
+                number.textContent = Math.random() > 0.5 ? '1' : '0';
+
+                // Posição horizontal aleatória
+                number.style.left = `${Math.random() * 100}%`;
+
+                // Tamanho aleatório
+                number.style.fontSize = `${14 + Math.random() * 20}px`;
+
+                binaryRain.appendChild(number);
+
+                setInterval(() => {
+                    number.textContent = number.textContent === '0' ? '1' : '0';
+                }, 100 + Math.random() * 500);
+
+                animate(number, {
+                    translateY: window.innerHeight + 100,
+
+                    opacity: [
+                        { to: 0, duration: 0 },
+                        { to: 0.5, duration: 300 },
+                        { to: 0.5, duration: 1500 },
+                        { to: 0, duration: 500 }
+                    ],
+
+                    duration: 3000 + Math.random() * 2000,
+                    ease: 'linear',
+
+                    onComplete: () => {
+                        number.remove();
+                    }
+                });
+            }
+
+            setInterval(createBinary, 150);
+        </script>
+
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistration().then(reg => {
+                    if (reg) {
+                        reg.update(); // força buscar a versão mais recente do SW
+                        console.log("Tentando atualizar o Service Worker...");
+                    }
+                });
+            }
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('service-worker.js', { scope: './' })
+                        .then(reg => console.log('Service Worker registrado!', reg))
+                        .catch(err => console.log('Falha no registro do SW', err));
+                });
+            }
+        </script>
+        <!-- ================================================= -->
+        <!-- VOLTAR -->
+        <!-- ================================================= -->
+        <button onclick="window.location.href='../index.html'" style="margin-top: 50px;">
+            Voltar
+        </button>
+    </div>
+</body>
+</html>

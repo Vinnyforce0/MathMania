@@ -1,10 +1,56 @@
+// ===============================
+// BOSS FIGHT
+//================================
+
+// BF.js
+
+import('../anime.esm.js').then(({ animate }) => {
+
+    const bossFight = document.getElementById('bossFight');
+    const bossGlitch = document.getElementById('bossGlitch');
+    const bossRedFlash = document.getElementById('bossRedFlash');
+
+    function startBossFight() {
+
+        console.log('BOSS FIGHT INICIADO');
+
+        // Ativa o modo boss
+        document.body.classList.add('boss-active');
+
+        // Mostra a tela do boss
+        bossFight.style.visibility = 'visible';
+
+        animate(bossFight, {
+            opacity: [0, 1],
+            duration: 300,
+            ease: 'linear'
+        });
+
+        // Entrada da caveira
+        animate(bossGlitch, {
+            opacity: [0, 1],
+            translateY: ['-100vh', '0vh'],
+            duration: 1800,
+            ease: 'outExpo'
+        });
+
+    }
+    
+    startBossFight();
+});
+
+
+//////////////////////////////////
+//==============================//
+
+
 
 // ===============================
 // ESTADO DO JOGO
 // ===============================
 
 
-let timeLeft = 50;
+let timeLeft = 9990;
 let difficulty = 1;
 let score = 0;
 let questionCount = 1;
@@ -749,20 +795,13 @@ function rand(min, max) {
 function updateTimer() {
     timerEl.textContent = `⏱ ${timeLeft}`;
 }
-let once = true;
+
 function updateModeDisplay() {
     const modeDisplay = document.getElementById("modeDisplay");
     if (!modeDisplay) return;
     if (trainingOperator) {
         modeDisplay.textContent = `Modo Treino: ${trainingOperator}`;
-        modeDisplay.style.marginTop = "60px";
         difficultyDisplay.style.display = "none";
-        if(once){
-            once=!once;
-            questionCount = 1;
-            difficulty = 1;
-        }
-        questionCountEl.textContent = `📊 ${questionCount}`;
     } else {
         modeDisplay.textContent = "";
     }
@@ -771,9 +810,6 @@ function updateModeDisplay() {
 function updateHUD() {
     updateTimer();
     scoreEl.textContent = `⭐ ${score}`;
-    questionCountEl.textContent = `📊 ${questionCount}`;
-    correctCountEl.textContent = `✔️ ${correctAnswers}`;
-    atualizarDificuldade(difficulty);
     updateModeDisplay();
 }
 
