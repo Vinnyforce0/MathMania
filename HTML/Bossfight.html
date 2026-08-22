@@ -15,16 +15,17 @@
 
 <body class="game-page">
     <!-- BOSS FIGHT -->
-<div id="bossFight">
-    <div id="bossRedFlash"></div>
-    <div id="bossScanlines"></div>
-
-    <div id="bossGlitch">
-        <img id="bossSkull" src="../IMAGES/boss.skull.svg" alt="">
+    <div id="bossFight">
+        <div id="bossRedFlash"></div>
+        <div id="bossScanlines"></div>
+        <div id="bossGlitch">
+            <div id="bossSkullContainer">
+                <object id="bossSkull" type="image/svg+xml" data="../IMAGES/boss.skull.svg">
+                </object>
+            </div>
+        </div>
+        <div id="bossText"></div>
     </div>
-
-    <div id="bossText"></div>
-</div>
     <div id="binaryRain"></div>
     <!-- HUD - superior -->
     <div id="hud">
@@ -49,6 +50,7 @@
     </div>
 
     <script src="../SRC/BF.js" defer></script>
+    <script src="../SRC/BFanimation.js" defer></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {

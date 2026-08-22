@@ -36,6 +36,7 @@ const ASSETS_TO_CACHE = [
   BASE_PATH + 'SRC/config.js',
   BASE_PATH + 'SRC/play.js',
   BASE_PATH + 'SRC/BF.js',
+  BASE_PATH + 'SRC/BFanimation.js',
   BASE_PATH + 'SRC/operadores.js',
   BASE_PATH + 'SRC/achievements.js',
 

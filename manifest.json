@@ -6,7 +6,8 @@
   "background_color": "#000000",
   "theme_color": "#000000",
   "description": "nenhuma descrição",
-  "version": "2.1.1",
+  "orientation": "portrait",
+  "version": "2.1.3",
   "icons": [
     {
       "src": "IMAGES/MathMania_Icon.png",
@@ -24,10 +25,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     },
-    {
-      "src": "IMAGES/sky.jpg",
-      "sizes": "1123x794",
-      "type": "image/jpeg"
-    }
   ]
 }
