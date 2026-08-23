@@ -29,7 +29,7 @@ import('../anime.esm.js').then(({ animate, spring }) => {
             }
         });
 
-        
+
     }
 
     function prepararCaveira() {
@@ -94,31 +94,111 @@ import('../anime.esm.js').then(({ animate, spring }) => {
             }
         });
     };
-    
+
     function skullbreak(bottom, top, red) {
 
         animate(top, {
-        rotate: 20,
-        translateX: 25,
+            rotate: 20,
+            translateX: 25,
 
-        ease: spring({
-            bounce: 0.6,
-            duration: 200
+            ease: spring({
+                bounce: 0.6,
+                duration: 200
+            }),
+
+            onComplete: () => {
+                animate(red, {
+                    opacity: 1,
+                    duration: 2000,
+
+                    onComplete: () => {
+                        skullend(bottom, top, red);
+                    }
+                });
+
+            }
+        });
+    }
+
+    function skullend(bottom, top, red) {
+        animate(top, {
+            rotate: 0,
+            translateX: 0,
+            translateY: -40,
+            duration: 100,
+            onComplete: () => {
+                animate(top, {
+                    translateY: [
+                        -40,
+                        0,
+                    ],
+                    ease: spring({
+                        bounce: 0.6,
+                        duration: 100
+                    }),
+                    duration: 150,
+                });
+            }
         }),
 
-        onComplete: () => {
-            animate(red, {
-                opacity: 1,
-                duration: 2000
-            });
-        }
-    });
+            animate(bottom, {
+                translateY: 60,
+                duration: 100,
+                onComplete: () => {
+                    animate(bottom, {
+                        translateY: [
+                            60,
+                            0,
+                        ],
+                        ease: spring({
+                            bounce: 0.6,
+                            duration: 100
+                        }),
+                        duration: 150,
+                        onComplete: () => {
+                            bossfightStart(bottom, top, red);
+                        }
+                    });
+                }
+            })
     }
+
+    function bossfightStart(bottom, top, red) {
+    bossFight.classList.add('boss-ending');
+    animate(bossGlitch, {
+        translateY: [
+            0,
+            10,
+            0,
+        ],
+        duration: 2500,
+        ease: 'inOutSine',
+        loop: true,
+    }),
+    
+    animate(bottom, {
+        translateY: [
+            0,
+            20,
+            0,
+        ],
+        duration: 2500,
+        ease: 'inOutSine',
+        loop: true,
+    }),
+
+    setTimeout(() => {
+        document.body.classList.remove('boss-active');
+
+        console.log('FUNDO SUMIU');
+        console.log('CAVEIRA CONTINUA');
+    }, 800);
+}
 
     // Espera o SVG carregar
     bossSkull.addEventListener('load', () => {
         console.log('SVG da caveira carregado!');
-        
+
     });
     startBossFight();
 });

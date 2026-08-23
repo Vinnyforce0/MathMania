@@ -16,6 +16,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10000;
+    pointer-events: none;
 }
 
 #bossSkullContainer {
@@ -25,6 +27,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events: none;
 }
 
 #bossSkull {
@@ -32,20 +35,24 @@
     height: 100%;
 
     display: block;
+    pointer-events: none;
 }
 
-#bossFight {
-    position: fixed;
-    inset: 0;
+#bossFight::before {
+    content: "";
 
-    width: 100vw;
-    height: 100vh;
+    position: absolute;
+    inset: 0;
 
     background: #000;
 
-    z-index: 10000;
+    z-index: 9999;
 
-    display: none;
+    opacity: 1;
+    transition: opacity 800ms ease;
+}
 
-    overflow: hidden;
+#bossFight.boss-ending::before {
+    opacity: 0;
+    pointer-events: none;
 }

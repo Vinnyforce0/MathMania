@@ -36,16 +36,10 @@ sup {
 #binaryRain span {
     position: absolute;
     top: -50px;
-
-    color: #00ffc8;
+    color: #00ff00;
     font-family: monospace;
     font-size: 20px;
     font-weight: bold;
-
-    text-shadow:
-        0 0 5px #00ffc8,
-        0 0 15px #00ffc8;
-
     opacity: 0;
 }
 
@@ -60,7 +54,7 @@ sup {
    2️⃣ HOME / PÁGINAS NORMAIS
 ====================================================== */
 
-body:not(.game-page):not(.about-page):not(.achievements-page) {
+body:not(.game-page):not(.about-page):not(.achievements-page):not(.bfgame-page) {
     height: 100vh;
     width: 100vw;
     overflow: hidden;

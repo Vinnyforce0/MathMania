@@ -11,9 +11,18 @@
     <link rel="stylesheet" href="../CSS/achievements.css">
     <link rel="icon" href="../IMAGES/MathMania_Icon.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../IMAGES/MathMania_Icon.png">
+
+    <style>
+        body{
+            background:
+        radial-gradient(circle at 30% 40%, rgba(211, 50, 50, 0.12), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(77, 1, 1, 0.298), transparent 60%),
+        #000000;
+        }
+    </style>
 </head>
 
-<body class="game-page">
+<body class="bfgame-page">
     <!-- BOSS FIGHT -->
     <div id="bossFight">
         <div id="bossRedFlash"></div>
@@ -76,6 +85,7 @@
 
             // Tamanho aleatório
             number.style.fontSize = `${14 + Math.random() * 20}px`;
+            number.style.color = 'red';
 
             binaryRain.appendChild(number);
 
